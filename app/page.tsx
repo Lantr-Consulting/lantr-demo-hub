@@ -66,7 +66,7 @@ export default function Home() {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-6 py-14">
       <header className="flex items-center gap-3">
-        <span className="flex size-9 items-center justify-center rounded-xl bg-scene">
+        <span className="flex size-9 items-center justify-center rounded-xl bg-gold">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/lantr_mark.png" alt="Lantr" className="size-5" />
         </span>
