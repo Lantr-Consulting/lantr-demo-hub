@@ -23,11 +23,11 @@ const PROJECTS = [
   },
   {
     name: "PostPilot",
-    href: null,
-    live: false,
+    href: "https://postpilot.lantr.site",
+    live: true,
     blurb:
-      "A content brain for creators — it learns your voice and audience, watches what's working, and drafts a posting strategy you steer in conversation.",
-    tags: ["Coming soon"],
+      "A growth lead for creators. It builds a versioned brand book from your voice, drafts posts through an editorial engine with cited rules, and runs campaigns while you're away.",
+    tags: ["Editorial engine", "Brand book", "Campaigns"],
   },
 ];
 
@@ -66,27 +66,27 @@ export default function Home() {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-6 py-14">
       <header className="flex items-center gap-3">
-        <span className="flex size-9 items-center justify-center rounded-xl bg-accent">
+        <span className="flex size-9 items-center justify-center rounded-xl bg-scene">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/lantr_mark.png" alt="Lantr" className="size-5" />
         </span>
         <div>
           <div className="text-lg font-semibold tracking-tight">Lantr</div>
-          <div className="text-xs text-ink-muted">Project demos</div>
+          <div className="text-xs text-faint">Project demos</div>
         </div>
         <a
           href="https://lantr.ai"
-          className="ml-auto text-sm text-ink-2 hover:text-ink"
+          className="ml-auto text-sm text-muted hover:text-fg"
         >
           lantr.ai →
         </a>
       </header>
 
       <section className="mt-14 max-w-2xl">
-        <h1 className="text-4xl font-bold tracking-tight">
+        <h1 className="font-display text-5xl font-semibold tracking-tight">
           Real AI products, built the way our students build them.
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-ink-2">
+        <p className="mt-4 text-base leading-relaxed text-muted">
           Every project here started from zero and shipped milestone by
           milestone — the same track Lantr students follow. Sign in once and
           you&apos;re signed in across all of them. Everything runs on
@@ -96,15 +96,15 @@ export default function Home() {
 
       <section className="mt-10">
         {user ? (
-          <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-surface px-5 py-4">
-            <span aria-hidden className="size-2 rounded-full bg-good" />
+          <div className="flex flex-wrap items-center gap-3 card px-5 py-4">
+            <span aria-hidden className="size-2 rounded-full bg-accent" />
             <span className="text-sm">
               Signed in as <strong>{user}</strong> — open any project below,
               you&apos;re already signed in there too.
             </span>
             <button
               onClick={() => supabase.auth.signOut()}
-              className="ml-auto text-sm text-ink-muted hover:text-ink"
+              className="ml-auto text-sm text-faint hover:text-fg"
             >
               Sign out
             </button>
@@ -112,10 +112,10 @@ export default function Home() {
         ) : (
           <form
             onSubmit={submit}
-            className="flex flex-wrap items-end gap-3 rounded-2xl bg-surface px-5 py-4"
+            className="flex flex-wrap items-end gap-3 card px-5 py-4"
           >
             <div className="flex min-w-40 flex-1 flex-col gap-1">
-              <label className="text-xs font-medium text-ink-muted" htmlFor="email">
+              <label className="text-xs font-medium text-faint" htmlFor="email">
                 Email
               </label>
               <input
@@ -125,11 +125,11 @@ export default function Home() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="rounded-lg border border-hairline bg-page px-3.5 py-2.5 text-sm outline-none placeholder:text-ink-muted focus:border-accent"
+                className="rounded-lg border border-line-strong bg-surface-2 px-3.5 py-2.5 text-sm outline-none placeholder:text-faint focus:border-accent"
               />
             </div>
             <div className="flex min-w-40 flex-1 flex-col gap-1">
-              <label className="text-xs font-medium text-ink-muted" htmlFor="password">
+              <label className="text-xs font-medium text-faint" htmlFor="password">
                 Password
               </label>
               <input
@@ -140,7 +140,7 @@ export default function Home() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="6+ characters"
-                className="rounded-lg border border-hairline bg-page px-3.5 py-2.5 text-sm outline-none placeholder:text-ink-muted focus:border-accent"
+                className="rounded-lg border border-line-strong bg-surface-2 px-3.5 py-2.5 text-sm outline-none placeholder:text-faint focus:border-accent"
               />
             </div>
             <button type="submit" disabled={busy} className="btn-primary px-5 py-2.5 text-sm">
@@ -149,32 +149,32 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setMode(mode === "signup" ? "signin" : "signup")}
-              className="text-xs text-ink-muted hover:text-ink"
+              className="text-xs text-faint hover:text-fg"
             >
               {mode === "signup" ? "Have an account? Sign in" : "New here? Create account"}
             </button>
-            {error && <p className="w-full text-xs text-[#ff5000]">{error}</p>}
+            {error && <p className="w-full text-xs text-amber">{error}</p>}
           </form>
         )}
       </section>
 
       <section className="mt-8 grid gap-4 md:grid-cols-3">
         {PROJECTS.map((p) => (
-          <div key={p.name} className="flex flex-col rounded-2xl bg-surface p-5">
+          <div key={p.name} className="card flex flex-col p-5">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-bold tracking-tight">{p.name}</h2>
               <span
                 className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                  p.live ? "bg-good/15 text-good" : "bg-white/10 text-ink-muted"
+                  p.live ? "bg-accent-wash text-accent-ink" : "bg-surface-2 text-faint"
                 }`}
               >
                 {p.live ? "Live" : "Soon"}
               </span>
             </div>
-            <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-2">{p.blurb}</p>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{p.blurb}</p>
             <div className="mt-3 flex flex-wrap gap-1.5">
               {p.tags.map((t) => (
-                <span key={t} className="rounded-full border border-hairline px-2 py-0.5 text-[10px] text-ink-muted">
+                <span key={t} className="rounded-full border border-line px-2 py-0.5 text-[10px] text-faint">
                   {t}
                 </span>
               ))}
@@ -184,7 +184,7 @@ export default function Home() {
                 Open {p.name}
               </a>
             ) : (
-              <span className="mt-4 inline-flex items-center justify-center rounded-full border border-hairline px-4 py-2.5 text-sm text-ink-muted">
+              <span className="mt-4 inline-flex items-center justify-center rounded-full border border-line px-4 py-2.5 text-sm text-faint">
                 In the workshop
               </span>
             )}
@@ -192,7 +192,7 @@ export default function Home() {
         ))}
       </section>
 
-      <footer className="mt-12 text-xs leading-relaxed text-ink-muted">
+      <footer className="mt-12 text-xs leading-relaxed text-faint">
         All demos run on simulated or public data — paper trading only, no real
         money, general guidance not financial or medical advice. Built with the
         Lantr AI Agent Builder track: Next.js on Vercel, Python agents on

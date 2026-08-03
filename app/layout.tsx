@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Fraunces, Geist } from "next/font/google";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const fraunces = Fraunces({ variable: "--font-fraunces", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Lantr Project Demos",
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} antialiased`}>
+    <html lang="en" className={`${geist.variable} ${fraunces.variable} antialiased`}>
       <body className="min-h-screen">{children}</body>
     </html>
   );
