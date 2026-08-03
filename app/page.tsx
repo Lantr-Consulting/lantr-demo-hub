@@ -1,65 +1,203 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { supabase } from "@/lib/supabase";
+
+const PROJECTS = [
+  {
+    name: "AI Stock Analyst",
+    href: "https://analyst.lantr.site",
+    live: true,
+    blurb:
+      "A personal AI portfolio manager on a paper-trading account. Describe how you invest in plain English — it researches the live market, proposes safeguard-checked trades you approve with one click, and runs standing missions on a schedule.",
+    tags: ["Alpaca paper trading", "LangChain agent", "Risk engine"],
+  },
+  {
+    name: "AirAware",
+    href: "https://airaware.lantr.site",
+    live: true,
+    blurb:
+      "An environmental-health advisor that plans your week around UV, heat, air quality, and pollen. It reads real forecasts, scores every activity window with cited health bands, and re-plans when conditions change.",
+    tags: ["Open-Meteo", "Health-band engine", "Daily briefings"],
+  },
+  {
+    name: "PostPilot",
+    href: null,
+    live: false,
+    blurb:
+      "A content brain for creators — it learns your voice and audience, watches what's working, and drafts a posting strategy you steer in conversation.",
+    tags: ["Coming soon"],
+  },
+];
 
 export default function Home() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [mode, setMode] = useState<"signin" | "signup">("signup");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user.email ?? null);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
+      setUser(s?.user.email ?? null);
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    setError(null);
+    const creds = { email: email.trim(), password };
+    const { error } =
+      mode === "signup"
+        ? await supabase.auth.signUp(creds)
+        : await supabase.auth.signInWithPassword(creds);
+    if (error) setError(error.message);
+    setBusy(false);
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-6 py-14">
+      <header className="flex items-center gap-3">
+        <span className="flex size-9 items-center justify-center rounded-xl bg-accent">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/lantr_mark.png" alt="Lantr" className="size-5" />
+        </span>
+        <div>
+          <div className="text-lg font-semibold tracking-tight">Lantr</div>
+          <div className="text-xs text-ink-muted">Project demos</div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <a
+          href="https://lantr.ai"
+          className="ml-auto text-sm text-ink-2 hover:text-ink"
+        >
+          lantr.ai →
+        </a>
+      </header>
+
+      <section className="mt-14 max-w-2xl">
+        <h1 className="text-4xl font-bold tracking-tight">
+          Real AI products, built the way our students build them.
+        </h1>
+        <p className="mt-4 text-base leading-relaxed text-ink-2">
+          Every project here started from zero and shipped milestone by
+          milestone — the same track Lantr students follow. Sign in once and
+          you&apos;re signed in across all of them. Everything runs on
+          simulated data: no real money, nothing at stake, play freely.
+        </p>
+      </section>
+
+      <section className="mt-10">
+        {user ? (
+          <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-surface px-5 py-4">
+            <span aria-hidden className="size-2 rounded-full bg-good" />
+            <span className="text-sm">
+              Signed in as <strong>{user}</strong> — open any project below,
+              you&apos;re already signed in there too.
+            </span>
+            <button
+              onClick={() => supabase.auth.signOut()}
+              className="ml-auto text-sm text-ink-muted hover:text-ink"
+            >
+              Sign out
+            </button>
+          </div>
+        ) : (
+          <form
+            onSubmit={submit}
+            className="flex flex-wrap items-end gap-3 rounded-2xl bg-surface px-5 py-4"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            <div className="flex min-w-40 flex-1 flex-col gap-1">
+              <label className="text-xs font-medium text-ink-muted" htmlFor="email">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className="rounded-lg border border-hairline bg-page px-3.5 py-2.5 text-sm outline-none placeholder:text-ink-muted focus:border-accent"
+              />
+            </div>
+            <div className="flex min-w-40 flex-1 flex-col gap-1">
+              <label className="text-xs font-medium text-ink-muted" htmlFor="password">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="6+ characters"
+                className="rounded-lg border border-hairline bg-page px-3.5 py-2.5 text-sm outline-none placeholder:text-ink-muted focus:border-accent"
+              />
+            </div>
+            <button type="submit" disabled={busy} className="btn-primary px-5 py-2.5 text-sm">
+              {busy ? "One moment…" : mode === "signup" ? "Create account" : "Sign in"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode(mode === "signup" ? "signin" : "signup")}
+              className="text-xs text-ink-muted hover:text-ink"
+            >
+              {mode === "signup" ? "Have an account? Sign in" : "New here? Create account"}
+            </button>
+            {error && <p className="w-full text-xs text-[#ff5000]">{error}</p>}
+          </form>
+        )}
+      </section>
+
+      <section className="mt-8 grid gap-4 md:grid-cols-3">
+        {PROJECTS.map((p) => (
+          <div key={p.name} className="flex flex-col rounded-2xl bg-surface p-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-bold tracking-tight">{p.name}</h2>
+              <span
+                className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                  p.live ? "bg-good/15 text-good" : "bg-white/10 text-ink-muted"
+                }`}
+              >
+                {p.live ? "Live" : "Soon"}
+              </span>
+            </div>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-2">{p.blurb}</p>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {p.tags.map((t) => (
+                <span key={t} className="rounded-full border border-hairline px-2 py-0.5 text-[10px] text-ink-muted">
+                  {t}
+                </span>
+              ))}
+            </div>
+            {p.href ? (
+              <a href={p.href} className="btn-primary mt-4 px-4 py-2.5 text-sm">
+                Open {p.name}
+              </a>
+            ) : (
+              <span className="mt-4 inline-flex items-center justify-center rounded-full border border-hairline px-4 py-2.5 text-sm text-ink-muted">
+                In the workshop
+              </span>
+            )}
+          </div>
+        ))}
+      </section>
+
+      <footer className="mt-12 text-xs leading-relaxed text-ink-muted">
+        All demos run on simulated or public data — paper trading only, no real
+        money, general guidance not financial or medical advice. Built with the
+        Lantr AI Agent Builder track: Next.js on Vercel, Python agents on
+        Railway, Supabase, and live market &amp; environmental APIs.
+      </footer>
+    </main>
   );
 }
