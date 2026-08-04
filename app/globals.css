@@ -1,56 +1,30 @@
 @import "tailwindcss";
 
-/* ============================================================
-   FORGE — Lantr's design language. Warm paper, ink, teal accent.
-   Mirrors lantr.ai's landing system (frontend/app/globals.css).
-   ============================================================ */
-
 @theme {
-  /* surfaces — warm paper, near-white. One continuous canvas. */
-  --color-bg: #faf9f6;
-  --color-bg-2: #f2f0ea;
-  --color-surface: #ffffff;
-  --color-surface-2: #f6f4ef;
-  --color-line: #211f1a14;
-  --color-line-strong: #211f1a2b;
-
-  /* text — warm ink */
-  --color-fg: #1e1c17;
-  --color-ink: #38352e;
-  --color-muted: #6b6860;
-  --color-faint: #9c988d;
-
-  /* working accent — teal for links & interactive details */
-  --color-accent: #3f7280;
-  --color-accent-ink: #325964;
-  --color-accent-wash: #e8f0f2;
-
-  /* warm accents */
-  --color-amber: #c2841f;
+  --color-bg: #f5f1e8;
+  --color-bg-2: #e7e2d7;
+  --color-surface: #fbfaf6;
+  --color-fg: #1b1a17;
+  --color-ink: #282720;
+  --color-muted: #6b675e;
+  --color-faint: #989187;
+  --color-line: #1b1a171c;
+  --color-line-strong: #1b1a1738;
+  --color-orange: #e14a2b;
   --color-gold: #c8a763;
 
-  /* the single dark surface — final CTA band & footer */
-  --color-scene: #171511;
-
-  /* fonts */
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist-sans), "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
-
-  /* easing */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* soft elevation — barely-there, hairlines do the work */
-  --shadow-card: 0 1px 2px rgba(30, 28, 23, 0.04);
-  --shadow-soft: 0 1px 2px rgba(30, 28, 23, 0.03), 0 10px 28px -18px rgba(30, 28, 23, 0.12);
-  --shadow-lift: 0 1px 2px rgba(30, 28, 23, 0.04), 0 22px 50px -24px rgba(30, 28, 23, 0.2);
+  --font-display: var(--font-fraunces), "Songti SC", "Noto Serif CJK SC", ui-serif, Georgia, serif;
 }
 
 :root {
   color-scheme: light;
-  /* full-height structural column rules (see <Section />) */
-  --rule: rgba(33, 31, 26, 0.09);
   --lp-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html {
@@ -59,12 +33,13 @@ html {
 }
 
 body {
-  background-color: var(--color-bg);
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
 }
 
 .font-display {
@@ -72,148 +47,124 @@ body {
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--color-accent) 22%, transparent);
-  color: var(--color-fg);
+  background: #e14a2b;
+  color: white;
 }
 
 ::-webkit-scrollbar {
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #cfc9bb;
-  border-radius: 999px;
   border: 3px solid var(--color-bg);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #b9b2a1;
-}
-
-/* ============================================================
-   Utilities
-   ============================================================ */
-
-@layer utilities {
-  .card {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-line);
-    box-shadow: var(--shadow-card);
-  }
-
-  .card-soft {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-line);
-    box-shadow: var(--shadow-soft);
-  }
-
-  .shadow-card {
-    box-shadow: var(--shadow-card);
-  }
-  .shadow-soft {
-    box-shadow: var(--shadow-soft);
-  }
-  .shadow-lift {
-    box-shadow: var(--shadow-lift);
-  }
-
-  /* faint grid for sparing background texture (dark bands) */
-  .bg-grid {
-    background-image:
-      linear-gradient(to right, #ffffff0a 1px, transparent 1px),
-      linear-gradient(to bottom, #ffffff0a 1px, transparent 1px);
-    background-size: 64px 64px;
-  }
-
-  /* diagonal hatch — the drafting-grid divider bands */
-  .hatch {
-    background-image: repeating-linear-gradient(
-      45deg,
-      rgba(33, 31, 26, 0.1) 0,
-      rgba(33, 31, 26, 0.1) 1px,
-      transparent 1px,
-      transparent 9px
-    );
-  }
+  border-radius: 999px;
+  background: #b9b1a4;
 }
 
-/* ============================================================
-   Scene-dark — the final CTA band & footer reskin. Components
-   style themselves with theme tokens, so remapping the tokens
-   inside this wrapper flips the band dark without new code.
-   ============================================================ */
-
-.scene-dark {
-  color-scheme: dark;
-  --color-bg: #171511;
-  --color-bg-2: #1d1b16;
-  --color-surface: #201e18;
-  --color-surface-2: #26231c;
-  --color-line: #ffffff14;
-  --color-line-strong: #ffffff2e;
-  --color-fg: #f4f1ea;
-  --color-ink: #d9d4c8;
-  --color-muted: #a8a396;
-  --color-faint: #7a756a;
-  --color-accent: #6fa7b5;
-  --color-accent-ink: #8fc3d1;
-  --color-accent-wash: #263a40;
-  --rule: rgba(255, 255, 255, 0.06);
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 28px -18px rgba(0, 0, 0, 0.5);
-  --shadow-lift: 0 1px 2px rgba(0, 0, 0, 0.4), 0 22px 50px -24px rgba(0, 0, 0, 0.6);
+.showcase-hero {
   background-color: var(--color-bg);
-  color: var(--color-ink);
+  background-image:
+    linear-gradient(rgba(27, 26, 23, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27, 26, 23, 0.045) 1px, transparent 1px);
+  background-position: center;
+  background-size: 48px 48px;
 }
 
-.scene-dark .hatch {
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.08) 0,
-    rgba(255, 255, 255, 0.08) 1px,
-    transparent 1px,
-    transparent 9px
-  );
+.showcase-hero::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(245, 241, 232, 0.2), rgba(245, 241, 232, 0.72));
+  content: "";
 }
 
-/* ============================================================
-   Hover lift + scroll reveals
-   ============================================================ */
-
-.hover-lift {
-  transition:
-    transform 0.45s var(--ease-out-expo),
-    box-shadow 0.45s var(--ease-out-expo);
-}
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lift);
+.showcase-hero > * {
+  z-index: 1;
 }
 
-/* scroll-in reveal (IntersectionObserver adds .lp-in) */
+.hero-shape {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(1px);
+  opacity: 0.92;
+}
+
+.hero-shape-one {
+  top: 8%;
+  right: -9rem;
+  width: 34rem;
+  height: 34rem;
+  background: #d8ff4f;
+}
+
+.hero-shape-two {
+  bottom: -14rem;
+  left: -11rem;
+  width: 32rem;
+  height: 32rem;
+  background: #ffb29d;
+}
+
+.browser-shot {
+  box-shadow:
+    0 2px 3px rgba(27, 26, 23, 0.08),
+    0 24px 50px -26px rgba(27, 26, 23, 0.48);
+}
+
+.project-visual {
+  background-color: var(--project-wash);
+  background-image:
+    radial-gradient(circle at 14px 14px, rgba(0, 0, 0, 0.08) 1.2px, transparent 1.3px),
+    linear-gradient(135deg, transparent 74%, rgba(255, 255, 255, 0.55));
+  background-size: 28px 28px, 100% 100%;
+}
+
+.project-number {
+  -webkit-text-stroke: 1px rgba(27, 26, 23, 0.18);
+  color: transparent;
+}
+
+.project-check {
+  background: var(--project-color);
+  color: #171713;
+}
+
+.project-check svg {
+  width: 11px;
+  height: 11px;
+}
+
+.project-button {
+  background: var(--project-color);
+  box-shadow: 0 7px 18px -11px rgba(0, 0, 0, 0.65);
+}
+
 .lp-reveal {
   opacity: 0;
-  transform: translateY(26px);
-  filter: blur(5px);
+  transform: translateY(22px);
+  filter: blur(4px);
   transition:
-    opacity 0.85s var(--lp-ease),
-    transform 0.85s var(--lp-ease),
-    filter 0.85s var(--lp-ease);
+    opacity 0.8s var(--lp-ease),
+    transform 0.8s var(--lp-ease),
+    filter 0.8s var(--lp-ease);
   transition-delay: var(--lp-d, 0ms);
 }
+
 .lp-reveal.lp-in {
   opacity: 1;
   transform: none;
   filter: none;
 }
 
-/* hero headline word cascade */
 @keyframes lp-word {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(20px);
     filter: blur(6px);
   }
   to {
@@ -222,6 +173,7 @@ body {
     filter: none;
   }
 }
+
 .lp-word {
   display: inline-block;
   opacity: 0;
@@ -230,23 +182,32 @@ body {
   animation-delay: var(--lp-d, 0ms);
 }
 
+@media (max-width: 1023px) {
+  .hero-shape-one {
+    top: 32%;
+    right: -15rem;
+  }
+
+  .hero-shape-two {
+    bottom: -15rem;
+    left: -15rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .lp-reveal {
     opacity: 1;
     transform: none;
     filter: none;
     transition: none;
   }
+
   .lp-word {
     opacity: 1;
     animation: none;
-  }
-  .hover-lift,
-  .hover-lift:hover {
-    transform: none;
-    transition: none;
-  }
-  html {
-    scroll-behavior: auto;
   }
 }

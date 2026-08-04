@@ -1,15 +1,26 @@
 "use client";
 
-/* The lantr.site landing — FORGE, structured like lantr.ai's page:
-   fixed nav, column-ruled sections, Fraunces display headings, one
-   dark scene band. Locale is route-based (中文 at "/", EN at "/en"),
-   exactly like the main lantr.ai site. */
-
-import { useEffect, useState, type ReactNode } from "react";
+import Image from "next/image";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { supabase } from "@/lib/supabase";
 import { persistLang, Reveal, Words, type Lang } from "@/components/landing/kit";
 
-/* ── structural primitives (mirroring frontend/components/ui/section.tsx) ── */
+type Project = {
+  number: string;
+  name: string;
+  chineseName: string;
+  href: string;
+  domain: string;
+  shot: string;
+  alt: string;
+  field: string;
+  question: string;
+  summary: string;
+  bullets: readonly string[];
+  note: string;
+  color: string;
+  wash: string;
+};
 
 function Container({
   children,
@@ -19,339 +30,407 @@ function Container({
   className?: string;
 }) {
   return (
-    <div className={`relative mx-auto w-full max-w-6xl px-5 sm:px-8 ${className}`}>
+    <div className={`relative mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-10 ${className}`}>
       {children}
     </div>
   );
 }
 
-function Section({
-  id,
-  children,
-  className = "",
-  gutters = false,
-}: {
-  id?: string;
-  children: ReactNode;
-  className?: string;
-  gutters?: boolean;
-}) {
+function Arrow({ className = "" }: { className?: string }) {
   return (
-    <section id={id} className={`relative py-16 sm:py-24 ${className}`}>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-full max-w-6xl -translate-x-1/2 lg:block"
-        style={{
-          borderLeft: "1px solid var(--rule)",
-          borderRight: "1px solid var(--rule)",
-        }}
-      >
-        {gutters ? (
-          <>
-            <span
-              className="hatch absolute inset-y-0 right-full"
-              style={{
-                width: "max(0px, calc((100vw - 72rem) / 2 - 2.5rem))",
-                borderLeft: "1px solid var(--rule)",
-              }}
-            />
-            <span
-              className="hatch absolute inset-y-0 left-full"
-              style={{
-                width: "max(0px, calc((100vw - 72rem) / 2 - 2.5rem))",
-                borderRight: "1px solid var(--rule)",
-              }}
-            />
-          </>
-        ) : null}
-      </div>
-      {children}
-    </section>
-  );
-}
-
-function Eyebrow({ children }: { children: ReactNode }) {
-  return (
-    <span className="inline-flex w-fit items-center rounded-full border border-line-strong bg-surface px-3.5 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-muted">
-      {children}
-    </span>
-  );
-}
-
-function SectionHeading({
-  eyebrow,
-  title,
-  lead,
-  align = "center",
-}: {
-  eyebrow?: string;
-  title: ReactNode;
-  lead?: ReactNode;
-  align?: "center" | "left";
-}) {
-  const alignment =
-    align === "center" ? "items-center text-center mx-auto" : "items-start text-left";
-  return (
-    <Reveal className={`flex max-w-2xl flex-col gap-5 ${alignment}`}>
-      {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-      <h2 className="text-balance font-display text-[2.1rem] font-normal leading-[1.08] tracking-[-0.01em] text-fg sm:text-[2.9rem]">
-        {title}
-      </h2>
-      {lead ? (
-        <p className="text-pretty text-[15px] leading-relaxed text-muted sm:text-base">
-          {lead}
-        </p>
-      ) : null}
-    </Reveal>
-  );
-}
-
-/* A real product still in a minimal browser frame. */
-function Shot({
-  src,
-  domain,
-  alt,
-  className = "",
-}: {
-  src: string;
-  domain: string;
-  alt: string;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`overflow-hidden rounded-xl border border-line-strong bg-surface shadow-lift ${className}`}
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      className={`size-4 ${className}`}
     >
-      <div className="flex items-center gap-1.5 border-b border-line bg-surface-2 px-3.5 py-2">
-        <span className="size-2 rounded-full bg-line-strong" />
-        <span className="size-2 rounded-full bg-line-strong" />
-        <span className="size-2 rounded-full bg-line-strong" />
-        <span className="ml-2 font-mono text-[10px] text-faint">{domain}</span>
-      </div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} className="block w-full" loading="lazy" />
-    </div>
+      <path d="M3 8h10M9 4l4 4-4 4" />
+    </svg>
   );
 }
 
-/* ── copy ── */
+function Check() {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      className="mt-0.5 size-4 shrink-0"
+    >
+      <path d="m3 8 3 3 7-7" />
+    </svg>
+  );
+}
+
+function ProjectShot({
+  project,
+  eager = false,
+}: {
+  project: Project;
+  eager?: boolean;
+}) {
+  return (
+    <div className="browser-shot overflow-hidden rounded-[18px] border border-black/15 bg-white">
+      <div className="flex h-9 items-center border-b border-black/10 bg-[#f5f3ed] px-3.5">
+        <div className="flex gap-1.5" aria-hidden>
+          <span className="size-2 rounded-full bg-black/15" />
+          <span className="size-2 rounded-full bg-black/15" />
+          <span className="size-2 rounded-full bg-black/15" />
+        </div>
+        <span className="mx-auto -translate-x-4 font-mono text-[9px] tracking-[0.08em] text-black/45 sm:text-[10px]">
+          {project.domain}
+        </span>
+      </div>
+      <Image
+        src={project.shot}
+        alt={project.alt}
+        width={1456}
+        height={825}
+        priority={eager}
+        className="block h-auto w-full"
+        sizes="(min-width: 1024px) 54vw, 100vw"
+      />
+    </div>
+  );
+}
 
 const COPY = {
-  en: {
-    nav: { projects: "Projects", how: "How they're built", switch: "中文", switchHref: "/", cta: "Create an account" },
-    badge: "Three live products · One account · All simulated",
-    h1: "Real AI products, built the way our students build them.",
-    subLead: "Every demo here started from zero and shipped ",
-    subEm: "milestone by milestone",
-    subRest:
-      " — first ship, design, brain, hands, memory, autonomy — on the same track Lantr students follow with their mentors.",
-    trust: [
-      "Sign in once — it works across every demo",
-      "Simulated & public data — nothing at stake",
-      "All source code public on GitHub",
-    ],
-    shotsAlt: ["The AI Stock Analyst dashboard", "The AirAware Today screen", "The PostPilot Today screen"],
-    stats: [
-      ["3", "live products"],
-      ["14", "course modules"],
-      ["30+", "public milestone tags"],
-      ["$0", "real money at stake"],
-    ],
-    accountEyebrow: "One account · every demo",
-    accountTitle: "Create an account, then wander.",
-    accountLead:
-      "Your session lives on a shared lantr.site cookie — sign in here once and every product below already knows you.",
-    accountSignedIn: (email: string) =>
-      `Signed in as ${email} — open any project, you're already signed in there too.`,
-    signOut: "Sign out",
-    email: "Email",
-    password: "Password",
-    passwordHint: "6+ characters",
-    create: "Create account",
-    signIn: "Sign in",
-    busy: "One moment…",
-    haveAccount: "Have an account? Sign in",
-    newHere: "New here? Create account",
-    open: "Open",
-    projectsEyebrow: "The projects",
-    projectsTitle: "Three directions, one method.",
-    projectsLead:
-      "Lantr students build a project aimed at their intended major. These are the flagship samples for each direction — every one a real, working product you can sign into right now.",
-    majorsLabel: "For students heading into",
-    howEyebrow: "How they're built",
-    howTitle: "One track. Fourteen modules. A shipped product.",
-    howBody:
-      "Each sample was built one milestone per session — exactly the pace and order a Lantr student follows with their mentor: first ship, design pass, the brain, the hands, memory & accounts, then autonomy. Every milestone is a public git tag you can check out and run.",
-    howLink: "See the program at lantr.ai",
-    githubLink: "Browse the source on GitHub",
-    ctaTitle: "Sign in once. Wander all three.",
-    ctaBody:
-      "Simulated money, real forecasts, your own AI growth lead — nothing at stake, everything to poke at.",
-    ctaButton: "Create your account",
-    tagline: "Real products, built the student way.",
-    footer:
-      "All demos run on simulated or public data — paper trading only, no real money, general guidance not financial or medical advice. Built with the Lantr AI Agent Builder track: Next.js on Vercel, Python agents on Railway, Supabase, and live market & environmental APIs.",
-    projects: [
-      {
-        name: "AI Stock Analyst",
-        href: "https://analyst.lantr.site",
-        domain: "analyst.lantr.site",
-        shot: "/shots/analyst.jpg",
-        tagline: "Your personal AI portfolio manager",
-        track: "01 · Finance & quant track",
-        blurb:
-          "Describe how you invest in plain English. It researches the live market, proposes safeguard-checked trades you approve with one click, and runs standing missions on a schedule — on a paper-trading account.",
-        bullets: [
-          "Plain-English strategy becomes a working investor profile",
-          "A deterministic risk engine checks every order",
-          "Automations research and report while you're away",
-        ],
-        majors: "Finance & Economics · CS & AI · Data Science",
-      },
-      {
-        name: "AirAware",
-        href: "https://airaware.lantr.site",
-        domain: "airaware.lantr.site",
-        shot: "/shots/airaware.jpg",
-        tagline: "An environmental-health planner for your real week",
-        track: "02 · Health & environment track",
-        blurb:
-          "It reads real forecasts — UV, heat, air quality, pollen — against your actual schedule, scores every outdoor window with cited WHO/EPA/NWS health bands, and re-plans when conditions change.",
-        bullets: [
-          "Cited health bands, enforced in code — not vibes",
-          "Accepting a plan re-checks the latest forecast",
-          "Briefings on schedule, alerts when bands are crossed",
-        ],
-        majors: "Public Health · Environmental Science · CS & AI",
-      },
-      {
-        name: "PostPilot",
-        href: "https://postpilot.lantr.site",
-        domain: "postpilot.lantr.site",
-        shot: "/shots/postpilot.jpg",
-        tagline: "An AI growth lead for your personal IP",
-        track: "03 · Marketing & media track",
-        blurb:
-          "It learns your story into a versioned brand book, mines your raw materials into citable atoms, and drafts posts through an editorial engine with cited rules. You approve, you export, you press publish.",
-        bullets: [
-          "Drafts cite your own materials — never invented stories",
-          "FTC disclosure & platform rules enforced in code",
-          "Campaigns run while you're away, ready for review",
-        ],
-        majors: "Marketing · Business · Media · CS & AI",
-      },
-    ],
-  },
   zh: {
-    nav: { projects: "项目", how: "构建方式", switch: "EN", switchHref: "/en", cta: "创建账户" },
-    badge: "三个在线产品 · 一个账户 · 全部模拟数据",
-    h1: "真实上线的 AI 产品，学员同款构建路径。",
-    subLead: "这里的每个演示都从零开始，",
-    subEm: "按里程碑逐步上线",
-    subRest:
-      "——首次发布、设计、大脑、双手、记忆、自主运行——与 Lantr 学员在导师带领下走的路径完全相同。",
-    trust: [
-      "登录一次，通行所有演示",
-      "仅模拟与公开数据 — 毫无风险",
-      "全部源码公开在 GitHub",
+    brand: "往届学生作品",
+    nav: { projects: "作品", process: "完成过程", account: "在线体验" },
+    switch: "EN",
+    switchHref: "/en",
+    navCta: "看作品",
+    eyebrow: "Lantr 往届学生作品展",
+    h1: "不是作业展示，是学生真正做出来的产品。",
+    heroBody:
+      "下面三个项目都出自 Lantr 往届学生。它们从一个真实问题开始，在课程中一步步做成完整产品；课程结束后，我们继续把它们托管在 lantr.site，供你亲手体验。",
+    heroPrimary: "看看他们做了什么",
+    heroSecondary: "了解 Lantr",
+    proof: ["往届学生原创", "已经上线运行", "Lantr 持续托管"],
+    collageLabel: "往届学生作品 / 01—03",
+    bridgeBig: "三份作品，三种完全不同的出发点。",
+    bridgeSmall: "不是统一命题，也不是照着模板复刻。每位学生都从自己的兴趣和专业方向出发，选一个真正想解决的问题，再把它做成完整产品。",
+    projectsEyebrow: "精选往届学生作品 / 01—03",
+    projectsTitle: "先看问题，再看学生怎么把它做成产品。",
+    projectsLead:
+      "每个项目都保留了可体验的产品版本。页面中的数据以公开或模拟内容为主，适合放心试用。",
+    creditNote:
+      "项目作者信息仅在获得学生本人授权后公开；本页不会使用虚构姓名、届次或经历。",
+    builtLabel: "学生完成的核心部分",
+    hosted: "往届学生作品 · 课程结束后由 Lantr 继续托管",
+    live: "已上线 · lantr.site",
+    open: "打开作品",
+    processEyebrow: "从课堂到上线",
+    processTitle: "从一个问题，到一件能用的作品。",
+    processLead:
+      "我们不会直接给学生一个标准答案。导师会陪他们先确定用户和使用场景，把问题拆成能完成的小步骤：先上线第一版，再逐步加入 AI、数据、交互和必要的安全规则。",
+    phases: [
+      ["01", "找到真问题", "从兴趣、专业方向或亲身经历出发，先说清楚产品究竟要帮谁。"],
+      ["02", "先上线第一版", "不等所有功能都做完，先发布一个能打开、能操作的版本。"],
+      ["03", "把功能做完整", "接入实际会用到的数据和 AI，同时把风险检查、来源说明和人工确认做进产品。"],
+      ["04", "继续试，继续改", "根据实际使用时遇到的问题调整流程，直到作品不只适合展示，也真的可以体验。"],
     ],
-    shotsAlt: ["AI Stock Analyst 仪表盘", "AirAware 今日页面", "PostPilot 今日页面"],
-    stats: [
-      ["3", "个在线产品"],
-      ["14", "个课程模块"],
-      ["30+", "个公开里程碑 tag"],
-      ["$0", "真实资金风险"],
-    ],
-    accountEyebrow: "一个账户 · 全部演示",
-    accountTitle: "创建一个账户，然后随便逛。",
+    accountEyebrow: "在线体验",
+    accountTitle: "不妨亲自打开看看。",
     accountLead:
-      "你的登录状态保存在共享的 lantr.site Cookie 上——在这里登录一次，下面每个产品都已经认识你。",
-    accountSignedIn: (email: string) =>
-      `已登录：${email} — 打开任意项目，无需再次登录。`,
+      "三个项目共用一个体验账户。在这里注册或登录一次，进入任意作品时都不用重复操作。",
+    accountSignedIn: (email: string) => `已登录 ${email}。现在可以直接进入任意作品。`,
     signOut: "退出登录",
     email: "邮箱",
     password: "密码",
     passwordHint: "至少 6 位",
-    create: "创建账户",
+    create: "创建体验账户",
     signIn: "登录",
     busy: "请稍候…",
-    haveAccount: "已有账户？登录",
-    newHere: "新用户？创建账户",
-    open: "打开",
-    projectsEyebrow: "三个项目",
-    projectsTitle: "三个方向，同一种方法。",
-    projectsLead:
-      "Lantr 学员会围绕自己的目标专业打造项目。这三个是各方向的旗舰示范——每一个都是现在就能登录使用的真实产品。",
-    majorsLabel: "适合目标专业",
-    howEyebrow: "构建方式",
-    howTitle: "一条路径，十四个模块，一个上线的产品。",
-    howBody:
-      "每个示范项目都是每次课程推进一个里程碑——与 Lantr 学员和导师的节奏、顺序完全一致：首次上线、设计打磨、大脑、双手、记忆与账户，最后是自主运行。每个里程碑都是可检出运行的公开 git tag。",
-    howLink: "在 lantr.ai 了解课程",
-    githubLink: "在 GitHub 浏览源码",
-    ctaTitle: "登录一次，畅游三个产品。",
-    ctaBody: "模拟资金、真实天气、你自己的 AI 增长负责人——零风险，尽情探索。",
-    ctaButton: "创建你的账户",
-    tagline: "真实的产品，学员的方法。",
+    haveAccount: "已经有账户？直接登录",
+    newHere: "第一次来？创建账户",
+    accountNote: "仅用于体验学生作品，不涉及真实交易或自动发布。",
+    finalTitle: "下一件上线的作品，也可以从一个好问题开始。",
+    finalBody: "去 lantr.ai 看看学生如何在导师陪伴下，把自己的想法一步步做成产品。",
+    finalCta: "了解 Lantr 课程",
+    backToWork: "再看一遍学生作品",
+    tagline: "把想法做出来，也把它真正上线。",
     footer:
-      "所有演示均运行在模拟或公开数据上——仅模拟盘交易，不涉及真实资金；一般性建议，不构成投资或医疗建议。基于 Lantr AI Agent Builder 课程构建：Next.js（Vercel）、Python 智能体（Railway）、Supabase，以及实时行情与环境数据 API。",
+      "本页展示 Lantr 往届学生完成的项目。课程结束后，Lantr 继续托管这些作品，供访客体验。演示使用模拟或公开数据；AI Stock Analyst 只进行模拟交易，不构成投资建议；AirAware 的内容只供日常参考，不代替医疗建议；PostPilot 不会自动替用户发布内容。",
     projects: [
       {
+        number: "01",
         name: "AI Stock Analyst",
+        chineseName: "美股研究与模拟交易助手",
         href: "https://analyst.lantr.site",
         domain: "analyst.lantr.site",
         shot: "/shots/analyst.jpg",
-        tagline: "你的专属 AI 投资组合经理",
-        track: "01 · 金融与量化方向",
-        blurb:
-          "用一句话描述你的投资风格。它研究实时行情，提出经风控检查的交易建议，你一键批准；还能按计划执行常设任务——一切都在模拟账户中进行。",
-        bullets: [
-          "一句话策略，变成真正执行的投资档案",
-          "确定性风控引擎检查每一笔订单",
-          "你不在时，自动化任务照常研究与汇报",
-        ],
-        majors: "金融与经济 · 计算机与AI · 数据科学",
+        alt: "往届学生项目 AI Stock Analyst 的投资组合页面",
+        field: "金融 × 人工智能",
+        question: "能不能让 AI 做研究，同时把每一次交易决定留给人？",
+        summary:
+          "学生把实时行情、投资偏好和模拟交易连成了一套完整流程。AI 可以整理研究结果并提出交易建议，但每笔订单都要先经过风险检查，再由用户确认。",
+        bullets: ["用自己的话说明投资偏好和风险要求", "查看实时行情，整理研究结果和交易建议", "每笔模拟订单都要经过风险检查和用户确认"],
+        note: "使用模拟资金，不涉及真实交易",
+        color: "#c9f04a",
+        wash: "#edf5cf",
       },
       {
+        number: "02",
         name: "AirAware",
+        chineseName: "户外活动安排助手",
         href: "https://airaware.lantr.site",
         domain: "airaware.lantr.site",
         shot: "/shots/airaware.jpg",
-        tagline: "为你的真实一周而生的环境健康规划师",
-        track: "02 · 健康与环境方向",
-        blurb:
-          "它对照你的真实日程阅读真实天气预报——紫外线、高温、空气质量、花粉——用 WHO/EPA/NWS 的健康标准为每个户外时段打分，条件变化时自动重新规划。",
-        bullets: [
-          "健康标准写进代码，逐条可溯源",
-          "接受计划时会重新核对最新预报",
-          "定时简报，指标越线即刻提醒",
-        ],
-        majors: "公共卫生 · 环境科学 · 计算机与AI",
+        alt: "往届学生项目 AirAware 的今日环境规划页面",
+        field: "环境与健康 × 数据",
+        question: "天气数据很多，怎样才能真的帮人安排好今天？",
+        summary:
+          "学生把紫外线、高温、空气质量和花粉预报放进个人日程里。产品会逐段判断户外活动是否合适，并在条件变化时重新给出安排。",
+        bullets: ["接入公开的天气与空气质量数据", "把公共健康标准写成可以逐项检查的规则", "根据个人日程安排活动，预报变化后及时更新"],
+        note: "内容根据公开环境数据生成，不代替医疗建议",
+        color: "#52c8ff",
+        wash: "#dff4ff",
       },
       {
+        number: "03",
         name: "PostPilot",
+        chineseName: "创作者内容工作台",
         href: "https://postpilot.lantr.site",
         domain: "postpilot.lantr.site",
         shot: "/shots/postpilot.jpg",
-        tagline: "你个人 IP 的 AI 增长负责人",
-        track: "03 · 营销与媒体方向",
-        blurb:
-          "它把你的故事学习成一本带版本管理的品牌手册，把你的原始素材挖掘成可引用的素材卡，再经由规则明确的编辑引擎起草内容。你审核、你导出、发布权在你。",
-        bullets: [
-          "草稿必须引用你的真实素材，绝不编造故事",
-          "FTC 披露与平台规则由代码强制执行",
-          "你不在时，营销活动照常运转，等你审核",
-        ],
-        majors: "市场营销 · 商科 · 传媒 · 计算机与AI",
+        alt: "往届学生项目 PostPilot 的内容工作台页面",
+        field: "内容创作 × 人工智能",
+        question: "AI 能帮创作者写内容，但怎样才能不替人编故事？",
+        summary:
+          "学生让产品先整理创作者自己的访谈、笔记和旧内容，再从真实材料中找选题、写初稿。每篇内容都会注明用了哪些材料，最后仍由创作者审核和发布。",
+        bullets: ["把访谈、笔记和旧内容整理成可查找的材料", "为不同平台准备初稿，并在发布前逐项检查", "内容由用户审核，产品只导出、不会自动发布"],
+        note: "草稿由用户审核，产品不会自动发布",
+        color: "#7b79ff",
+        wash: "#e8e6ff",
+      },
+    ],
+  },
+  en: {
+    brand: "Past student work",
+    nav: { projects: "Work", process: "How it was built", account: "Try it" },
+    switch: "中文",
+    switchHref: "/",
+    navCta: "View the work",
+    eyebrow: "Lantr Student Showcase · Past student projects",
+    h1: "Not class exercises. Products our students actually shipped.",
+    heroBody:
+      "These three projects were created by past Lantr students. Each began with a real question and grew into a complete product during the program. We continue to host them on lantr.site so you can experience the work for yourself.",
+    heroPrimary: "See what they built",
+    heroSecondary: "About Lantr",
+    proof: ["Original student work", "Live and working", "Hosted by Lantr"],
+    collageLabel: "PAST STUDENT WORK / 01—03",
+    bridgeBig: "Three projects. Three very different starting points.",
+    bridgeSmall: "No shared prompt and no template to trace. Students began with their own interests and intended fields, then took the problem—and the product—all the way.",
+    projectsEyebrow: "Selected student work / 01—03",
+    projectsTitle: "Start with the question. Then see how each student made it real.",
+    projectsLead:
+      "Every project remains available as a working demo. Public and simulated data keep the experience safe to explore.",
+    creditNote:
+      "Student names and cohort details are published only with the creator’s permission; this page does not invent attribution.",
+    builtLabel: "What the student built",
+    hosted: "Past student project · hosted by Lantr",
+    live: "Live on lantr.site",
+    open: "Open the live project",
+    processEyebrow: "From class to launch",
+    processTitle: "From one good question to a product people can use.",
+    processLead:
+      "Mentors do not hand students a standard answer. They help break the problem down: define the user, ship early, then add AI, data, interaction, and safeguards one working layer at a time.",
+    phases: [
+      ["01", "Find the real problem", "Begin with an interest, intended field, or lived experience—and get specific about who the product helps."],
+      ["02", "Ship early", "Do not wait for a perfect final reveal. Put a small, usable first version online."],
+      ["03", "Make the ability real", "Connect live data and AI, while building risk checks, citations, and human approval into the product."],
+      ["04", "Use it, then refine it", "Follow the friction in real use and keep adjusting until the work holds up beyond a presentation."],
+    ],
+    accountEyebrow: "Try the work",
+    accountTitle: "Do more than look at screenshots.",
+    accountLead:
+      "All three projects share one demo account. Create it or sign in here once, then move between the projects without repeating the step.",
+    accountSignedIn: (email: string) => `Signed in as ${email}. You can now open any project directly.`,
+    signOut: "Sign out",
+    email: "Email",
+    password: "Password",
+    passwordHint: "6+ characters",
+    create: "Create demo account",
+    signIn: "Sign in",
+    busy: "One moment…",
+    haveAccount: "Already have an account? Sign in",
+    newHere: "First visit? Create an account",
+    accountNote: "For exploring student work only. No real trading or automatic publishing.",
+    finalTitle: "The next shipped product can start with one good question.",
+    finalBody: "Visit lantr.ai to see how students work with a mentor to turn an idea into a product, one working step at a time.",
+    finalCta: "Explore the Lantr program",
+    backToWork: "Return to student work",
+    tagline: "Make the idea real. Put it in the world.",
+    footer:
+      "This page features projects completed by past Lantr students and kept online by Lantr for visitors to explore. Demos use simulated or public data. AI Stock Analyst is paper trading only and is not financial advice. AirAware provides general information, not medical advice. PostPilot never publishes automatically.",
+    projects: [
+      {
+        number: "01",
+        name: "AI Stock Analyst",
+        chineseName: "AI investment research assistant",
+        href: "https://analyst.lantr.site",
+        domain: "analyst.lantr.site",
+        shot: "/shots/analyst.jpg",
+        alt: "Portfolio screen from the past student project AI Stock Analyst",
+        field: "Finance × artificial intelligence",
+        question: "Can AI do the research while leaving every trading decision to a person?",
+        summary:
+          "The student connected live market research, investor preferences, and paper trading into one product. AI can propose an evidence-backed trade, but a rules-based risk check and the user both stand between a proposal and an order.",
+        bullets: ["Turn plain-language preferences into risk boundaries", "Research live markets and prepare trade proposals", "Require deterministic checks and human approval before paper orders"],
+        note: "Simulated funds only—no real trading",
+        color: "#c9f04a",
+        wash: "#edf5cf",
+      },
+      {
+        number: "02",
+        name: "AirAware",
+        chineseName: "Environmental health planner",
+        href: "https://airaware.lantr.site",
+        domain: "airaware.lantr.site",
+        shot: "/shots/airaware.jpg",
+        alt: "Today screen from the past student project AirAware",
+        field: "Environmental health × data",
+        question: "There is plenty of weather data. How can it actually help someone plan today?",
+        summary:
+          "The student placed UV, heat, air quality, and pollen forecasts inside a personal schedule. The product checks each outdoor window and revises the plan when conditions change.",
+        bullets: ["Connect public weather and air-quality data", "Turn public-health bands into testable rules", "Build a personal plan and recalculate it when forecasts change"],
+        note: "General environmental-health information, not medical advice",
+        color: "#52c8ff",
+        wash: "#dff4ff",
+      },
+      {
+        number: "03",
+        name: "PostPilot",
+        chineseName: "Creator content workspace",
+        href: "https://postpilot.lantr.site",
+        domain: "postpilot.lantr.site",
+        shot: "/shots/postpilot.jpg",
+        alt: "Content workspace from the past student project PostPilot",
+        field: "Content creation × artificial intelligence",
+        question: "AI can help creators write. How do you keep it from inventing their story?",
+        summary:
+          "The student designed the product to learn from a creator’s own interviews, notes, and past posts before it develops ideas or drafts. Sources remain visible, and the creator keeps final review and publishing control.",
+        bullets: ["Turn source material into traceable content atoms", "Create platform-specific drafts and check editorial rules", "Keep human review; export content without auto-publishing"],
+        note: "Users review every draft; the product never auto-publishes",
+        color: "#7b79ff",
+        wash: "#e8e6ff",
       },
     ],
   },
 } as const;
 
-/* ── the page ── */
+function ProjectCase({
+  project,
+  copy,
+  reverse,
+}: {
+  project: Project;
+  copy: (typeof COPY)[Lang];
+  reverse: boolean;
+}) {
+  const style = {
+    "--project-color": project.color,
+    "--project-wash": project.wash,
+  } as CSSProperties;
+
+  return (
+    <Reveal>
+      <article
+        style={style}
+        className="project-case overflow-hidden rounded-[26px] border border-black/10 bg-surface shadow-[0_18px_70px_-50px_rgba(19,18,16,0.55)]"
+      >
+        <div className="grid lg:grid-cols-[0.86fr_1.14fr]">
+          <div
+            className={`flex flex-col p-6 sm:p-9 lg:p-11 ${
+              reverse ? "lg:order-2" : ""
+            }`}
+          >
+            <div className="flex items-start justify-between gap-6">
+              <div>
+                <div className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
+                  {copy.hosted}
+                </div>
+                <div className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-fg">
+                  {project.field}
+                </div>
+              </div>
+              <span className="project-number font-display text-5xl font-semibold leading-none text-fg sm:text-6xl">
+                {project.number}
+              </span>
+            </div>
+
+            <div className="mt-10">
+              <div className="text-sm font-semibold text-muted">{project.name}</div>
+              <h3 className="mt-1 text-2xl font-semibold tracking-[-0.03em] text-fg sm:text-3xl">
+                {project.chineseName}
+              </h3>
+              <p className="mt-6 text-balance font-display text-[1.7rem] font-medium leading-[1.18] tracking-[-0.025em] text-fg sm:text-[2rem]">
+                “{project.question}”
+              </p>
+              <p className="mt-5 text-[15px] leading-7 text-muted">{project.summary}</p>
+            </div>
+
+            <div className="mt-7 border-t border-black/10 pt-6">
+              <div className="font-mono text-[10px] font-medium uppercase tracking-[0.17em] text-muted">
+                {copy.builtLabel}
+              </div>
+              <ul className="mt-4 space-y-3">
+                {project.bullets.map((bullet) => (
+                  <li key={bullet} className="flex gap-3 text-sm leading-6 text-fg">
+                    <span className="project-check flex size-5 shrink-0 items-center justify-center rounded-full">
+                      <Check />
+                    </span>
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-auto flex flex-wrap items-end justify-between gap-4 pt-8">
+              <a
+                href={project.href}
+                className="project-button inline-flex h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold text-[#161613] transition-transform hover:-translate-y-0.5"
+              >
+                {copy.open}
+                <Arrow />
+              </a>
+              <p className="max-w-52 text-right text-[11px] leading-5 text-muted">{project.note}</p>
+            </div>
+          </div>
+
+          <a
+            href={project.href}
+            aria-label={`${copy.open}: ${project.name}`}
+            className={`project-visual group relative flex min-h-[380px] items-center p-5 sm:p-9 lg:min-h-full lg:p-10 ${
+              reverse ? "lg:order-1" : ""
+            }`}
+          >
+            <span className="absolute right-5 top-5 rounded-full border border-black/10 bg-white/70 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.13em] text-black/60 backdrop-blur sm:right-8 sm:top-8">
+              {copy.live}
+            </span>
+            <div className="w-full transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:rotate-[0.3deg]">
+              <ProjectShot project={project} />
+            </div>
+          </a>
+        </div>
+      </article>
+    </Reveal>
+  );
+}
 
 export function Landing({ lang }: { lang: Lang }) {
   const c = COPY[lang];
+  const projects = c.projects as readonly Project[];
   const [scrolled, setScrolled] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -368,31 +447,37 @@ export function Landing({ lang }: { lang: Lang }) {
   }, []);
 
   useEffect(() => {
-    /* Seed the family-wide language cookie from the route the visitor
-       chose, without clobbering an explicit earlier choice. */
     try {
-      if (!document.cookie.includes("lantr-lang=")) persistLang(lang);
+      persistLang(lang);
     } catch {}
+
     supabase.auth.getSession().then(({ data }) => {
       setUser(data.session?.user.email ?? null);
     });
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
-      setUser(s?.user.email ?? null);
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user.email ?? null);
     });
     return () => sub.subscription.unsubscribe();
   }, [lang]);
 
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
     if (busy) return;
+
     setBusy(true);
     setError(null);
-    const creds = { email: email.trim(), password };
-    const { error } =
+    const credentials = { email: email.trim(), password };
+    const { error: authError } =
       mode === "signup"
-        ? await supabase.auth.signUp(creds)
-        : await supabase.auth.signInWithPassword(creds);
-    if (error) setError(error.message);
+        ? await supabase.auth.signUp(credentials)
+        : await supabase.auth.signInWithPassword(credentials);
+    if (authError) {
+      setError(
+        lang === "zh"
+          ? "登录遇到问题，请检查邮箱和密码后重试。"
+          : "Sign-in failed. Check your email and password, then try again."
+      );
+    }
     setBusy(false);
   }
 
@@ -400,424 +485,343 @@ export function Landing({ lang }: { lang: Lang }) {
 
   return (
     <div className="min-h-screen bg-bg text-ink">
-      {/* ── nav (fixed, like lantr.ai) ─────────────────── */}
-      <header className="fixed inset-x-0 top-0 z-50">
-        <div
-          className={`border-b border-line transition-all duration-300 ${
-            scrolled ? "bg-bg/85 backdrop-blur-xl" : "bg-bg"
+      <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4">
+        <nav
+          className={`mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between rounded-2xl border px-3.5 transition-all duration-300 sm:px-5 ${
+            scrolled
+              ? "border-black/10 bg-[#f8f5ed]/90 shadow-[0_10px_40px_-28px_rgba(0,0,0,0.55)] backdrop-blur-xl"
+              : "border-transparent bg-transparent"
           }`}
         >
-          <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8">
-            <a href={lang === "zh" ? "/" : "/en"} className="flex items-center gap-2.5">
-              <span className="flex size-8 items-center justify-center rounded-lg bg-gold">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/lantr_mark.png" alt="Lantr" className="size-4.5" />
+          <a href={lang === "zh" ? "/" : "/en"} className="flex items-center gap-2.5">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-gold">
+              <Image src="/lantr_mark.png" alt="Lantr" width={18} height={18} />
+            </span>
+            <span className="leading-tight">
+              <span className="block text-[15px] font-bold tracking-[-0.02em] text-fg">Lantr</span>
+              <span className="hidden font-mono text-[9px] uppercase tracking-[0.12em] text-muted sm:block">
+                {c.brand}
               </span>
-              <span className="leading-tight">
-                <span className="block text-[15px] font-semibold tracking-tight text-fg">
-                  {lang === "zh" ? "蓝图 Lantr" : "Lantr"}
-                </span>
-                <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-faint">
-                  Project demos
-                </span>
-              </span>
+            </span>
+          </a>
+
+          <div className="hidden items-center gap-1 md:flex">
+            <a href="#projects" className="rounded-full px-3.5 py-2 text-sm text-muted hover:bg-black/5 hover:text-fg">
+              {c.nav.projects}
             </a>
+            <a href="#process" className="rounded-full px-3.5 py-2 text-sm text-muted hover:bg-black/5 hover:text-fg">
+              {c.nav.process}
+            </a>
+            <a href="#account" className="rounded-full px-3.5 py-2 text-sm text-muted hover:bg-black/5 hover:text-fg">
+              {c.nav.account}
+            </a>
+          </div>
 
-            <div className="hidden items-center gap-1 md:flex">
-              <a
-                href="#projects"
-                className="rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:text-fg"
-              >
-                {c.nav.projects}
-              </a>
-              <a
-                href="#how"
-                className="rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:text-fg"
-              >
-                {c.nav.how}
-              </a>
-              <a
-                href="https://lantr.ai"
-                className="rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:text-fg"
-              >
-                lantr.ai ↗
-              </a>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <a
-                href={c.nav.switchHref}
-                onClick={() => persistLang(otherLang)}
-                className="rounded-lg px-2.5 py-2 font-mono text-[12px] font-medium text-muted transition-colors hover:text-fg"
-              >
-                {c.nav.switch}
-              </a>
-              <a
-                href="#account"
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-accent px-4 text-sm font-medium text-white shadow-[0_1px_2px_rgba(30,28,23,0.25)] transition-all hover:-translate-y-px hover:bg-accent-ink"
-              >
-                {c.nav.cta}
-              </a>
-            </div>
-          </nav>
-        </div>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <a
+              href={c.switchHref}
+              onClick={() => persistLang(otherLang)}
+              className="rounded-full px-2.5 py-2 font-mono text-[11px] font-medium text-muted hover:bg-black/5 hover:text-fg"
+            >
+              {c.switch}
+            </a>
+            <a
+              href="#projects"
+              className="inline-flex h-10 items-center gap-2 rounded-full bg-fg px-4 text-sm font-semibold text-bg transition-transform hover:-translate-y-0.5"
+            >
+              {c.navCta}
+              <Arrow className="hidden sm:block" />
+            </a>
+          </div>
+        </nav>
       </header>
 
-      {/* ── hero ───────────────────────────────────────── */}
-      <Section gutters className="overflow-hidden pt-32 sm:pt-40">
-        <Container className="text-center">
-          <Reveal>
-            <Eyebrow>
-              <span aria-hidden className="mr-2 size-1.5 rounded-full bg-accent" />
-              {c.badge}
-            </Eyebrow>
-          </Reveal>
-          <h1 className="mx-auto mt-7 max-w-3xl text-balance font-display text-[2.5rem] font-normal leading-[1.07] tracking-[-0.015em] text-fg sm:text-[3.8rem]">
-            <Words text={c.h1} delay={120} />
-          </h1>
-          <Reveal delay={220}>
-            <p className="mx-auto mt-7 max-w-2xl text-pretty text-base leading-relaxed text-muted sm:text-lg">
-              {c.subLead}
-              <em className="font-display italic text-ink">{c.subEm}</em>
-              {c.subRest}
-            </p>
-          </Reveal>
-          <Reveal delay={320}>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-2 text-[13px] text-muted">
-              {c.trust.map((t) => (
-                <span key={t} className="flex items-center gap-2">
-                  <span aria-hidden className="h-1 w-1 rounded-full bg-accent" />
-                  {t}
-                </span>
-              ))}
-            </div>
-          </Reveal>
-
-          {/* real product stills, fanned */}
-          <div className="relative mx-auto mt-14 grid max-w-5xl gap-5 lg:grid-cols-3 lg:gap-0">
-            {c.projects.map((p, i) => (
-              <Reveal
-                key={p.domain}
-                delay={400 + i * 130}
-                className={
-                  i === 0
-                    ? "relative lg:translate-x-4 lg:translate-y-5 lg:-rotate-2"
-                    : i === 1
-                      ? "relative z-10 lg:scale-[1.04]"
-                      : "relative lg:-translate-x-4 lg:translate-y-5 lg:rotate-2"
-                }
-              >
-                <a
-                  href={p.href}
-                  className="block transition-transform duration-500 [transition-timing-function:var(--ease-out-expo)] hover:-translate-y-2 hover:rotate-0"
-                >
-                  <Shot src={p.shot} domain={p.domain} alt={c.shotsAlt[i]} />
-                </a>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* ── stats strip ────────────────────────────────── */}
-      <Section className="border-t border-line py-10 sm:py-12">
-        <Container>
-          <Reveal>
-            <dl className="grid grid-cols-2 gap-y-8 md:grid-cols-4">
-              {c.stats.map(([n, label]) => (
-                <div key={label} className="flex flex-col items-center gap-1 text-center">
-                  <dd className="font-display text-4xl text-fg">{n}</dd>
-                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
-                    {label}
-                  </dt>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
-        </Container>
-      </Section>
-
-      {/* ── account ────────────────────────────────────── */}
-      <Section id="account" gutters className="border-t border-line bg-bg-2 py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            eyebrow={c.accountEyebrow}
-            title={c.accountTitle}
-            lead={c.accountLead}
-          />
-          <Reveal delay={140} className="mx-auto mt-8 max-w-2xl">
-            <div className="card-soft rounded-2xl p-5 sm:p-6">
-              {user ? (
-                <div className="flex flex-wrap items-center gap-3">
-                  <span aria-hidden className="size-2 rounded-full bg-accent" />
-                  <span className="flex-1 text-sm text-ink">{c.accountSignedIn(user)}</span>
-                  <button
-                    onClick={() => supabase.auth.signOut()}
-                    className="text-sm text-faint transition-colors hover:text-fg"
-                  >
-                    {c.signOut}
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={submit} className="flex flex-wrap items-end gap-3">
-                  <div className="flex min-w-44 flex-1 flex-col gap-1.5">
-                    <label
-                      className="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-faint"
-                      htmlFor="email"
-                    >
-                      {c.email}
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@example.com"
-                      className="rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-sm outline-none placeholder:text-faint focus:border-accent"
-                    />
-                  </div>
-                  <div className="flex min-w-44 flex-1 flex-col gap-1.5">
-                    <label
-                      className="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-faint"
-                      htmlFor="password"
-                    >
-                      {c.password}
-                    </label>
-                    <input
-                      id="password"
-                      type="password"
-                      required
-                      minLength={6}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder={c.passwordHint}
-                      className="rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-sm outline-none placeholder:text-faint focus:border-accent"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={busy}
-                    className="inline-flex h-[42px] items-center justify-center rounded-full bg-accent px-5 text-sm font-medium text-white transition-colors hover:bg-accent-ink disabled:opacity-50"
-                  >
-                    {busy ? c.busy : mode === "signup" ? c.create : c.signIn}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setMode(mode === "signup" ? "signin" : "signup")}
-                    className="w-full text-left text-xs text-faint transition-colors hover:text-fg sm:w-auto"
-                  >
-                    {mode === "signup" ? c.haveAccount : c.newHere}
-                  </button>
-                  {error && <p className="w-full text-xs text-amber">{error}</p>}
-                </form>
-              )}
-            </div>
-          </Reveal>
-        </Container>
-      </Section>
-
-      {/* ── projects ───────────────────────────────────── */}
-      <Section id="projects" className="border-t border-line">
-        <Container>
-          <SectionHeading
-            eyebrow={c.projectsEyebrow}
-            title={c.projectsTitle}
-            lead={c.projectsLead}
-          />
-          <div className="mt-12 space-y-16 sm:space-y-20">
-            {c.projects.map((p, i) => (
-              <Reveal key={p.name} delay={60}>
-                <div
-                  className={`grid items-center gap-8 lg:grid-cols-[1fr_1.25fr] lg:gap-12 ${
-                    i % 2 ? "lg:[&>*:first-child]:order-2" : ""
-                  }`}
-                >
-                  <div>
-                    <div className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-accent">
-                      {p.track}
-                    </div>
-                    <h3 className="mt-3 text-2xl font-semibold tracking-tight text-fg">
-                      {p.name}
-                    </h3>
-                    <div className="mt-1 font-display text-[16px] italic text-ink">
-                      {p.tagline}
-                    </div>
-                    <p className="mt-4 text-[15px] leading-relaxed text-muted">{p.blurb}</p>
-                    <ul className="mt-5 space-y-2.5">
-                      {p.bullets.map((b) => (
-                        <li key={b} className="flex items-start gap-2.5 text-sm leading-snug text-ink">
-                          <svg
-                            viewBox="0 0 12 12"
-                            className="mt-0.5 size-3.5 shrink-0 text-accent"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden
-                          >
-                            <path d="M2 6.5 4.5 9 10 3.5" />
-                          </svg>
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="mt-5 border-t border-line pt-4">
-                      <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">
-                        {c.majorsLabel}
-                      </span>
-                      <div className="mt-1 text-[13px] text-muted">{p.majors}</div>
-                    </div>
+      <main>
+        <section className="showcase-hero relative overflow-hidden pb-20 pt-32 sm:pb-28 sm:pt-40 lg:min-h-[900px] lg:pb-32">
+          <div aria-hidden className="hero-shape hero-shape-one" />
+          <div aria-hidden className="hero-shape hero-shape-two" />
+          <Container>
+            <div className="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10">
+              <div className="relative z-10">
+                <Reveal>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white/60 px-3 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.13em] text-muted backdrop-blur">
+                    <span className="size-1.5 rounded-full bg-orange" />
+                    {c.eyebrow}
+                  </span>
+                </Reveal>
+                <h1 className="mt-7 max-w-3xl text-balance font-display text-[3.15rem] font-semibold leading-[0.98] tracking-[-0.045em] text-fg sm:text-[4.65rem] lg:text-[5.35rem]">
+                  <Words text={c.h1} delay={100} />
+                </h1>
+                <Reveal delay={220}>
+                  <p className="mt-7 max-w-xl text-pretty text-base leading-7 text-muted sm:text-[18px] sm:leading-8">
+                    {c.heroBody}
+                  </p>
+                </Reveal>
+                <Reveal delay={310}>
+                  <div className="mt-8 flex flex-wrap gap-3">
                     <a
-                      href={p.href}
-                      className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-white shadow-[0_1px_2px_rgba(30,28,23,0.25)] transition-all hover:-translate-y-px hover:bg-accent-ink"
+                      href="#projects"
+                      className="inline-flex h-12 items-center gap-2 rounded-full bg-orange px-5 text-sm font-semibold text-white shadow-[0_8px_24px_-14px_rgba(225,74,43,0.9)] transition-transform hover:-translate-y-0.5"
                     >
-                      {c.open} {p.name} →
+                      {c.heroPrimary}
+                      <Arrow />
                     </a>
-                  </div>
-                  <a
-                    href={p.href}
-                    className="hover-lift block rounded-xl"
-                    aria-label={p.name}
-                  >
-                    <Shot src={p.shot} domain={p.domain} alt={c.shotsAlt[i]} />
-                  </a>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* ── how they're built ──────────────────────────── */}
-      <Section id="how" gutters className="border-t border-line bg-bg-2">
-        <Container>
-          <div className="card-soft rounded-2xl p-7 sm:p-10">
-            <Reveal>
-              <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-                <div className="max-w-xl">
-                  <Eyebrow>{c.howEyebrow}</Eyebrow>
-                  <h2 className="mt-4 font-display text-2xl font-normal tracking-tight text-fg sm:text-3xl">
-                    {c.howTitle}
-                  </h2>
-                  <p className="mt-3 text-[15px] leading-relaxed text-muted">{c.howBody}</p>
-                  <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
                     <a
                       href="https://lantr.ai"
-                      className="text-sm font-medium text-accent hover:text-accent-ink"
+                      className="inline-flex h-12 items-center gap-2 rounded-full border border-black/15 bg-white/50 px-5 text-sm font-semibold text-fg backdrop-blur transition-colors hover:bg-white"
                     >
-                      {c.howLink} →
-                    </a>
-                    <a
-                      href="https://github.com/Lantr-Consulting"
-                      className="text-sm font-medium text-accent hover:text-accent-ink"
-                    >
-                      {c.githubLink} →
+                      {c.heroSecondary}
+                      <span aria-hidden>↗</span>
                     </a>
                   </div>
+                </Reveal>
+                <Reveal delay={390}>
+                  <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t border-black/10 pt-5">
+                    {c.proof.map((item) => (
+                      <span key={item} className="flex items-center gap-2 text-xs font-medium text-muted">
+                        <span className="flex size-4 items-center justify-center rounded-full bg-fg text-[9px] text-bg">✓</span>
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </Reveal>
+              </div>
+
+              <div className="relative mx-auto h-[510px] w-full max-w-[680px] sm:h-[620px] lg:h-[660px]">
+                <div className="absolute right-0 top-0 font-mono text-[9px] uppercase tracking-[0.16em] text-muted [writing-mode:vertical-rl]">
+                  {c.collageLabel}
                 </div>
-                <div className="flex max-w-sm flex-wrap gap-1.5">
-                  {[
-                    "Next.js",
-                    "Tailwind",
-                    "FastAPI",
-                    "LangChain",
-                    "DeepSeek",
-                    "Supabase",
-                    "Railway",
-                    "Vercel",
-                    "Alpaca Paper API",
-                    "Open-Meteo",
-                    "Bluesky API",
-                  ].map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-full border border-line-strong px-3 py-1 font-mono text-[11px] text-muted"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
+                {projects.map((project, index) => (
+                  <Reveal
+                    key={project.number}
+                    delay={320 + index * 120}
+                    className={`absolute w-[82%] sm:w-[76%] ${
+                      index === 0
+                        ? "left-0 top-6 -rotate-[4deg]"
+                        : index === 1
+                          ? "right-5 top-[30%] z-10 rotate-[3deg]"
+                          : "bottom-0 left-8 z-20 -rotate-[1.5deg]"
+                    }`}
+                  >
+                    <a href={project.href} className="group block">
+                      <div
+                        className="mb-2 flex items-end justify-between px-1"
+                        style={{ color: project.color }}
+                      >
+                        <span className="rounded-full bg-fg px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-white">
+                          {project.number} / {project.name}
+                        </span>
+                      </div>
+                      <div className="transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:rotate-0">
+                        <ProjectShot project={project} eager={index === 0} />
+                      </div>
+                    </a>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </Container>
+        </section>
+
+        <section className="border-y border-black/15 bg-fg py-8 text-bg sm:py-10">
+          <Container>
+            <div className="grid gap-4 sm:grid-cols-[1.1fr_0.9fr] sm:items-end sm:gap-12">
+              <p className="text-balance font-display text-3xl font-semibold leading-tight tracking-[-0.03em] sm:text-4xl">
+                {c.bridgeBig}
+              </p>
+              <p className="max-w-xl text-sm leading-6 text-white/60 sm:justify-self-end">{c.bridgeSmall}</p>
+            </div>
+          </Container>
+        </section>
+
+        <section id="projects" className="scroll-mt-24 py-20 sm:py-28">
+          <Container>
+            <Reveal className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
+              <div className="font-mono text-[10px] font-medium uppercase tracking-[0.17em] text-orange">
+                {c.projectsEyebrow}
+              </div>
+              <div>
+                <h2 className="max-w-3xl text-balance font-display text-[2.5rem] font-semibold leading-[1.04] tracking-[-0.04em] text-fg sm:text-[4rem]">
+                  {c.projectsTitle}
+                </h2>
+                <p className="mt-5 max-w-2xl text-base leading-7 text-muted">{c.projectsLead}</p>
+                <p className="mt-3 max-w-2xl text-xs leading-5 text-muted">{c.creditNote}</p>
               </div>
             </Reveal>
-          </div>
-        </Container>
-      </Section>
 
-      {/* ── final CTA + footer (the dark scene) ────────── */}
-      <div className="scene-dark">
-        <Section className="bg-grid mask-radial pb-0 pt-20 sm:pb-0 sm:pt-24">
+            <div className="mt-12 space-y-7 sm:mt-16 sm:space-y-10">
+              {projects.map((project, index) => (
+                <ProjectCase key={project.number} project={project} copy={c} reverse={index % 2 === 1} />
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        <section id="process" className="scroll-mt-24 border-y border-black/10 bg-[#e7e2d7] py-20 sm:py-28">
+          <Container>
+            <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+              <Reveal>
+                <div className="font-mono text-[10px] font-medium uppercase tracking-[0.17em] text-orange">
+                  {c.processEyebrow}
+                </div>
+                <h2 className="mt-5 text-balance font-display text-[2.7rem] font-semibold leading-[1.04] tracking-[-0.04em] text-fg sm:text-[4.2rem]">
+                  {c.processTitle}
+                </h2>
+                <p className="mt-6 max-w-xl text-base leading-7 text-muted">{c.processLead}</p>
+                <a href="https://lantr.ai" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-fg underline decoration-orange decoration-2 underline-offset-4">
+                  {c.heroSecondary}
+                  <span aria-hidden>↗</span>
+                </a>
+              </Reveal>
+
+              <div className="border-t border-black/15">
+                {c.phases.map(([number, title, body], index) => (
+                  <Reveal key={number} delay={index * 70}>
+                    <div className="grid grid-cols-[48px_1fr] gap-4 border-b border-black/15 py-6 sm:grid-cols-[60px_0.55fr_1fr] sm:gap-6 sm:py-8">
+                      <div className="font-display text-2xl font-semibold text-orange">{number}</div>
+                      <h3 className="text-lg font-semibold tracking-[-0.02em] text-fg">{title}</h3>
+                      <p className="col-start-2 text-sm leading-6 text-muted sm:col-start-auto">{body}</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </Container>
+        </section>
+
+        <section id="account" className="scroll-mt-24 bg-[#1826cc] py-20 text-white sm:py-28">
+          <Container>
+            <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end lg:gap-16">
+              <Reveal>
+                <span className="font-mono text-[10px] font-medium uppercase tracking-[0.17em] text-[#bfc8ff]">
+                  {c.accountEyebrow}
+                </span>
+                <h2 className="mt-5 max-w-xl text-balance font-display text-[2.8rem] font-semibold leading-[1.02] tracking-[-0.04em] sm:text-[4.4rem]">
+                  {c.accountTitle}
+                </h2>
+                <p className="mt-6 max-w-lg text-base leading-7 text-white/70">{c.accountLead}</p>
+              </Reveal>
+
+              <Reveal delay={100}>
+                <div className="rounded-[26px] border border-white/20 bg-white p-5 text-fg shadow-[0_30px_80px_-45px_rgba(0,0,0,0.8)] sm:p-7">
+                  {user ? (
+                    <div className="flex flex-wrap items-center gap-4">
+                      <span className="flex size-9 items-center justify-center rounded-full bg-[#d9ff49] text-sm font-bold">✓</span>
+                      <p className="min-w-0 flex-1 text-sm leading-6">{c.accountSignedIn(user)}</p>
+                      <button
+                        type="button"
+                        onClick={() => supabase.auth.signOut()}
+                        className="text-xs font-medium text-muted underline underline-offset-4 hover:text-fg"
+                      >
+                        {c.signOut}
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2">
+                      <label className="grid gap-2 text-xs font-semibold text-muted" htmlFor="email">
+                        {c.email}
+                        <input
+                          id="email"
+                          type="email"
+                          autoComplete="email"
+                          required
+                          value={email}
+                          onChange={(event) => setEmail(event.target.value)}
+                          placeholder="you@example.com"
+                          className="h-12 rounded-xl border border-black/15 bg-[#f8f6ef] px-3.5 text-sm font-normal text-fg outline-none transition-colors placeholder:text-black/30 focus:border-[#1826cc]"
+                        />
+                      </label>
+                      <label className="grid gap-2 text-xs font-semibold text-muted" htmlFor="password">
+                        {c.password}
+                        <input
+                          id="password"
+                          type="password"
+                          autoComplete={mode === "signup" ? "new-password" : "current-password"}
+                          required
+                          minLength={6}
+                          value={password}
+                          onChange={(event) => setPassword(event.target.value)}
+                          placeholder={c.passwordHint}
+                          className="h-12 rounded-xl border border-black/15 bg-[#f8f6ef] px-3.5 text-sm font-normal text-fg outline-none transition-colors placeholder:text-black/30 focus:border-[#1826cc]"
+                        />
+                      </label>
+                      <button
+                        type="submit"
+                        disabled={busy}
+                        className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-fg px-5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-60 sm:w-fit"
+                      >
+                        {busy ? c.busy : mode === "signup" ? c.create : c.signIn}
+                        {!busy && <Arrow />}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMode(mode === "signup" ? "signin" : "signup");
+                          setError(null);
+                        }}
+                        className="text-left text-xs text-muted underline underline-offset-4 sm:self-center sm:text-right"
+                      >
+                        {mode === "signup" ? c.haveAccount : c.newHere}
+                      </button>
+                      {error && (
+                        <p aria-live="polite" className="text-xs text-[#c43b26] sm:col-span-2">
+                          {error}
+                        </p>
+                      )}
+                    </form>
+                  )}
+                  <p className="mt-5 border-t border-black/10 pt-4 text-[11px] leading-5 text-muted">{c.accountNote}</p>
+                </div>
+              </Reveal>
+            </div>
+          </Container>
+        </section>
+
+        <section className="bg-fg py-20 text-white sm:py-28">
           <Container className="text-center">
             <Reveal>
-              <h2 className="mx-auto max-w-2xl text-balance font-display text-3xl font-normal tracking-tight text-fg sm:text-4xl">
-                {c.ctaTitle}
+              <h2 className="mx-auto max-w-4xl text-balance font-display text-[2.7rem] font-semibold leading-[1.04] tracking-[-0.04em] sm:text-[4.6rem]">
+                {c.finalTitle}
               </h2>
-              <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
-                {c.ctaBody}
-              </p>
-            </Reveal>
-            <Reveal delay={140}>
-              <div className="mb-4 mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <a
-                  href="#account"
-                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent px-6 text-[15px] font-medium text-[#10202a] transition-all hover:-translate-y-px hover:bg-accent-ink"
-                >
-                  {c.ctaButton} →
+              <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/60">{c.finalBody}</p>
+              <div className="mt-9 flex flex-wrap justify-center gap-3">
+                <a href="https://lantr.ai" className="inline-flex h-12 items-center gap-2 rounded-full bg-[#d9ff49] px-5 text-sm font-semibold text-fg transition-transform hover:-translate-y-0.5">
+                  {c.finalCta}
+                  <Arrow />
                 </a>
-                <a
-                  href="https://lantr.ai"
-                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-line-strong px-6 text-[15px] font-medium text-fg transition-colors hover:bg-surface"
-                >
-                  lantr.ai ↗
+                <a href="#projects" className="inline-flex h-12 items-center gap-2 rounded-full border border-white/20 px-5 text-sm font-semibold text-white hover:bg-white/10">
+                  {c.backToWork}
                 </a>
               </div>
             </Reveal>
           </Container>
-        </Section>
-        <footer className="border-t border-line pb-8 pt-12">
-          <Container>
-            <div className="flex flex-col justify-between gap-10 md:flex-row md:items-start">
-              <div>
-                <div className="flex items-center gap-2.5">
-                  <span className="flex size-8 items-center justify-center rounded-lg bg-gold">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/lantr_mark.png" alt="Lantr" className="size-4.5" />
-                  </span>
-                  <span className="text-[15px] font-semibold tracking-tight text-fg">
-                    {lang === "zh" ? "蓝图 Lantr" : "Lantr"}
-                  </span>
-                </div>
-                <p className="mt-3 max-w-xs font-display text-lg italic leading-snug text-muted">
-                  {c.tagline}
-                </p>
+        </section>
+      </main>
+
+      <footer className="border-t border-white/10 bg-fg pb-8 pt-10 text-white">
+        <Container>
+          <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <div className="flex items-center gap-2.5">
+                <span className="flex size-9 items-center justify-center rounded-xl bg-gold">
+                  <Image src="/lantr_mark.png" alt="Lantr" width={18} height={18} />
+                </span>
+                <span className="font-semibold">Lantr</span>
               </div>
-              <nav
-                aria-label="Footer"
-                className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted"
-              >
-                {c.projects.map((p) => (
-                  <a key={p.name} href={p.href} className="transition-colors hover:text-fg">
-                    {p.name}
-                  </a>
-                ))}
-                <a href="https://lantr.ai" className="transition-colors hover:text-fg">
-                  lantr.ai
-                </a>
-                <a
-                  href="https://github.com/Lantr-Consulting"
-                  className="transition-colors hover:text-fg"
-                >
-                  GitHub
-                </a>
-              </nav>
+              <p className="mt-3 font-display text-lg text-white/55">{c.tagline}</p>
             </div>
-            <div className="mt-10 border-t border-line pt-6">
-              <p className="text-xs leading-relaxed text-faint">{c.footer}</p>
-            </div>
-          </Container>
-        </footer>
-      </div>
+            <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-white/55">
+              {projects.map((project) => (
+                <a key={project.name} href={project.href} className="hover:text-white">
+                  {project.name}
+                </a>
+              ))}
+              <a href="https://lantr.ai" className="hover:text-white">lantr.ai ↗</a>
+            </nav>
+          </div>
+          <p className="mt-10 border-t border-white/10 pt-6 text-[11px] leading-5 text-white/40">{c.footer}</p>
+        </Container>
+      </footer>
     </div>
   );
 }

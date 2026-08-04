@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { fontClassName } from "@/lib/fonts";
 import "../globals.css";
 
-const title = "蓝图 Lantr · 项目演示 — 三个真实上线的学员同款 AI 产品";
+const title = "Lantr 往届学生作品展 · 三个已经上线的 AI 项目";
 const description =
-  "AI 股票分析师、环境健康规划师、创作者增长负责人——三个从零开始、按里程碑上线的真实 AI 产品，与 Lantr 学员的构建路径完全一致。一个账户通行全部演示，全部模拟数据，源码公开。";
+  "三个由 Lantr 往届学生完成并上线的真实项目：AI 投资研究助手、户外活动安排助手和创作者内容工作台。课程结束后，Lantr 继续托管这些作品，访客可以直接在线体验。";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://lantr.site"),
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     description,
     type: "website",
     url: "/",
-    siteName: "蓝图 Lantr · 项目演示",
+    siteName: "Lantr 往届学生作品展",
     locale: "zh_CN",
   },
 };
