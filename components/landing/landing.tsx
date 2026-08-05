@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
-import { supabase } from "@/lib/supabase";
 import { persistLang, Reveal, Words, type Lang } from "@/components/landing/kit";
 
 type Project = {
@@ -122,13 +121,13 @@ const COPY = {
     projectsEyebrow: "精选往届学生作品 / 01—03",
     projectsTitle: "先看问题，再看学生怎么把它做成产品。",
     projectsLead:
-      "每个项目都保留了可体验的产品版本。页面中的数据以公开或模拟内容为主，适合放心试用。",
+      "每个项目都提供无需注册的专属演示。系统会为你单独准备示例数据，AI 功能真实运行，所有修改互不干扰。",
     creditNote:
       "项目作者信息仅在获得学生本人授权后公开；本页不会使用虚构姓名、届次或经历。",
     builtLabel: "学生完成的核心部分",
     hosted: "往届学生作品 · 课程结束后由 Lantr 继续托管",
     live: "已上线 · lantr.site",
-    open: "打开作品",
+    open: "开始互动体验",
     processEyebrow: "从课堂到上线",
     processTitle: "从一个问题，到一件能用的作品。",
     processLead:
@@ -142,18 +141,18 @@ const COPY = {
     accountEyebrow: "在线体验",
     accountTitle: "不妨亲自打开看看。",
     accountLead:
-      "三个项目共用一个体验账户。在这里注册或登录一次，进入任意作品时都不用重复操作。",
+      "不用注册，也不用记演示账号。选择一个项目后，系统会立即创建只有你能看到的临时工作区；之后打开另外两个项目也可以继续使用。",
     accountSignedIn: (email: string) => `已登录 ${email}。现在可以直接进入任意作品。`,
     signOut: "退出登录",
     email: "邮箱",
     password: "密码",
     passwordHint: "至少 6 位",
-    create: "创建体验账户",
+    create: "开始专属演示",
     signIn: "登录",
     busy: "请稍候…",
     haveAccount: "已经有账户？直接登录",
     newHere: "第一次来？创建账户",
-    accountNote: "仅用于体验学生作品，不涉及真实交易或自动发布。",
+    accountNote: "工作区会在 24 小时后自动清除。每位访客都有独立数据；模拟交易、自动发布和外部通知都不会真正执行。",
     finalTitle: "下一件上线的作品，也可以从一个好问题开始。",
     finalBody: "去 lantr.ai 看看学生如何在导师陪伴下，把自己的想法一步步做成产品。",
     finalCta: "了解 Lantr 课程",
@@ -166,7 +165,7 @@ const COPY = {
         number: "01",
         name: "AI Stock Analyst",
         chineseName: "美股研究与模拟交易助手",
-        href: "https://analyst.lantr.site",
+        href: "https://analyst.lantr.site/demo",
         domain: "analyst.lantr.site",
         shot: "/shots/analyst.jpg",
         alt: "往届学生项目 AI Stock Analyst 的投资组合页面",
@@ -183,7 +182,7 @@ const COPY = {
         number: "02",
         name: "AirAware",
         chineseName: "户外活动安排助手",
-        href: "https://airaware.lantr.site",
+        href: "https://airaware.lantr.site/demo",
         domain: "airaware.lantr.site",
         shot: "/shots/airaware.jpg",
         alt: "往届学生项目 AirAware 的今日环境规划页面",
@@ -200,7 +199,7 @@ const COPY = {
         number: "03",
         name: "PostPilot",
         chineseName: "创作者内容工作台",
-        href: "https://postpilot.lantr.site",
+        href: "https://postpilot.lantr.site/demo",
         domain: "postpilot.lantr.site",
         shot: "/shots/postpilot.jpg",
         alt: "往届学生项目 PostPilot 的内容工作台页面",
@@ -234,13 +233,13 @@ const COPY = {
     projectsEyebrow: "Selected student work / 01—03",
     projectsTitle: "Start with the question. Then see how each student made it real.",
     projectsLead:
-      "Every project remains available as a working demo. Public and simulated data keep the experience safe to explore.",
+      "Every project has an instant private demo. The AI features are live, while isolated sample data keeps each visitor's experience separate.",
     creditNote:
       "Student names and cohort details are published only with the creator’s permission; this page does not invent attribution.",
     builtLabel: "What the student built",
     hosted: "Past student project · hosted by Lantr",
     live: "Live on lantr.site",
-    open: "Open the live project",
+    open: "Try the interactive demo",
     processEyebrow: "From class to launch",
     processTitle: "From one good question to a product people can use.",
     processLead:
@@ -254,18 +253,18 @@ const COPY = {
     accountEyebrow: "Try the work",
     accountTitle: "Do more than look at screenshots.",
     accountLead:
-      "All three projects share one demo account. Create it or sign in here once, then move between the projects without repeating the step.",
+      "No signup and no shared password. Choose a project and we’ll create a private temporary workspace instantly; the same session carries into the other demos.",
     accountSignedIn: (email: string) => `Signed in as ${email}. You can now open any project directly.`,
     signOut: "Sign out",
     email: "Email",
     password: "Password",
     passwordHint: "6+ characters",
-    create: "Create demo account",
+    create: "Start a private demo",
     signIn: "Sign in",
     busy: "One moment…",
     haveAccount: "Already have an account? Sign in",
     newHere: "First visit? Create an account",
-    accountNote: "For exploring student work only. No real trading or automatic publishing.",
+    accountNote: "The workspace clears after 24 hours. Every visitor has isolated data; trading, publishing, and external notifications remain simulated.",
     finalTitle: "The next shipped product can start with one good question.",
     finalBody: "Visit lantr.ai to see how students work with a mentor to turn an idea into a product, one working step at a time.",
     finalCta: "Explore the Lantr program",
@@ -278,7 +277,7 @@ const COPY = {
         number: "01",
         name: "AI Stock Analyst",
         chineseName: "AI investment research assistant",
-        href: "https://analyst.lantr.site",
+        href: "https://analyst.lantr.site/demo",
         domain: "analyst.lantr.site",
         shot: "/shots/analyst.jpg",
         alt: "Portfolio screen from the past student project AI Stock Analyst",
@@ -295,7 +294,7 @@ const COPY = {
         number: "02",
         name: "AirAware",
         chineseName: "Environmental health planner",
-        href: "https://airaware.lantr.site",
+        href: "https://airaware.lantr.site/demo",
         domain: "airaware.lantr.site",
         shot: "/shots/airaware.jpg",
         alt: "Today screen from the past student project AirAware",
@@ -312,7 +311,7 @@ const COPY = {
         number: "03",
         name: "PostPilot",
         chineseName: "Creator content workspace",
-        href: "https://postpilot.lantr.site",
+        href: "https://postpilot.lantr.site/demo",
         domain: "postpilot.lantr.site",
         shot: "/shots/postpilot.jpg",
         alt: "Content workspace from the past student project PostPilot",
@@ -432,12 +431,6 @@ export function Landing({ lang }: { lang: Lang }) {
   const c = COPY[lang];
   const projects = c.projects as readonly Project[];
   const [scrolled, setScrolled] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [mode, setMode] = useState<"signin" | "signup">("signup");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [user, setUser] = useState<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -450,36 +443,7 @@ export function Landing({ lang }: { lang: Lang }) {
     try {
       persistLang(lang);
     } catch {}
-
-    supabase.auth.getSession().then(({ data }) => {
-      setUser(data.session?.user.email ?? null);
-    });
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user.email ?? null);
-    });
-    return () => sub.subscription.unsubscribe();
   }, [lang]);
-
-  async function submit(event: React.FormEvent) {
-    event.preventDefault();
-    if (busy) return;
-
-    setBusy(true);
-    setError(null);
-    const credentials = { email: email.trim(), password };
-    const { error: authError } =
-      mode === "signup"
-        ? await supabase.auth.signUp(credentials)
-        : await supabase.auth.signInWithPassword(credentials);
-    if (authError) {
-      setError(
-        lang === "zh"
-          ? "登录遇到问题，请检查邮箱和密码后重试。"
-          : "Sign-in failed. Check your email and password, then try again."
-      );
-    }
-    setBusy(false);
-  }
 
   const otherLang: Lang = lang === "zh" ? "en" : "zh";
 
@@ -704,72 +668,17 @@ export function Landing({ lang }: { lang: Lang }) {
 
               <Reveal delay={100}>
                 <div className="rounded-[26px] border border-white/20 bg-white p-5 text-fg shadow-[0_30px_80px_-45px_rgba(0,0,0,0.8)] sm:p-7">
-                  {user ? (
-                    <div className="flex flex-wrap items-center gap-4">
-                      <span className="flex size-9 items-center justify-center rounded-full bg-[#d9ff49] text-sm font-bold">✓</span>
-                      <p className="min-w-0 flex-1 text-sm leading-6">{c.accountSignedIn(user)}</p>
-                      <button
-                        type="button"
-                        onClick={() => supabase.auth.signOut()}
-                        className="text-xs font-medium text-muted underline underline-offset-4 hover:text-fg"
-                      >
-                        {c.signOut}
-                      </button>
-                    </div>
-                  ) : (
-                    <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2">
-                      <label className="grid gap-2 text-xs font-semibold text-muted" htmlFor="email">
-                        {c.email}
-                        <input
-                          id="email"
-                          type="email"
-                          autoComplete="email"
-                          required
-                          value={email}
-                          onChange={(event) => setEmail(event.target.value)}
-                          placeholder="you@example.com"
-                          className="h-12 rounded-xl border border-black/15 bg-[#f8f6ef] px-3.5 text-sm font-normal text-fg outline-none transition-colors placeholder:text-black/30 focus:border-[#1826cc]"
-                        />
-                      </label>
-                      <label className="grid gap-2 text-xs font-semibold text-muted" htmlFor="password">
-                        {c.password}
-                        <input
-                          id="password"
-                          type="password"
-                          autoComplete={mode === "signup" ? "new-password" : "current-password"}
-                          required
-                          minLength={6}
-                          value={password}
-                          onChange={(event) => setPassword(event.target.value)}
-                          placeholder={c.passwordHint}
-                          className="h-12 rounded-xl border border-black/15 bg-[#f8f6ef] px-3.5 text-sm font-normal text-fg outline-none transition-colors placeholder:text-black/30 focus:border-[#1826cc]"
-                        />
-                      </label>
-                      <button
-                        type="submit"
-                        disabled={busy}
-                        className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-fg px-5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-60 sm:w-fit"
-                      >
-                        {busy ? c.busy : mode === "signup" ? c.create : c.signIn}
-                        {!busy && <Arrow />}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setMode(mode === "signup" ? "signin" : "signup");
-                          setError(null);
-                        }}
-                        className="text-left text-xs text-muted underline underline-offset-4 sm:self-center sm:text-right"
-                      >
-                        {mode === "signup" ? c.haveAccount : c.newHere}
-                      </button>
-                      {error && (
-                        <p aria-live="polite" className="text-xs text-[#c43b26] sm:col-span-2">
-                          {error}
-                        </p>
-                      )}
-                    </form>
-                  )}
+                  <div className="flex items-center gap-3">
+                    <span className="flex size-9 items-center justify-center rounded-full bg-[#d9ff49] text-sm font-bold">✓</span>
+                    <strong className="text-sm">{c.create}</strong>
+                  </div>
+                  <div className="mt-5 grid gap-2">
+                    {projects.map((project) => (
+                      <a key={project.name} href={project.href} className="flex h-12 items-center justify-between rounded-xl border border-black/10 bg-[#f8f6ef] px-4 text-sm font-semibold transition-colors hover:border-black/25 hover:bg-white">
+                        {project.name}<Arrow />
+                      </a>
+                    ))}
+                  </div>
                   <p className="mt-5 border-t border-black/10 pt-4 text-[11px] leading-5 text-muted">{c.accountNote}</p>
                 </div>
               </Reveal>
