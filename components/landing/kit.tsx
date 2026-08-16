@@ -109,22 +109,35 @@ export function Reveal({
 /** Word-by-word cascade for display headlines.
     Chinese (no spaces) cascades character by character. */
 export function Words({ text, delay = 0 }: { text: string; delay?: number }) {
-  const hasSpaces = text.includes(" ");
-  const parts = hasSpaces ? text.split(" ") : Array.from(text);
-  const step = hasSpaces ? 55 : 28;
+  let partIndex = 0;
+  const lines = text.split("\n");
+
   return (
     <span aria-label={text}>
-      {parts.map((p, i) => (
-        <span key={`${i}-${p}`} aria-hidden>
-          <span
-            className="lp-word"
-            style={{ "--lp-d": `${delay + i * step}ms` } as CSSProperties}
-          >
-            {p}
+      {lines.map((line, lineIndex) => {
+        const hasSpaces = line.includes(" ");
+        const parts = hasSpaces ? line.split(" ") : Array.from(line);
+        const step = hasSpaces ? 55 : 28;
+
+        return (
+          <span key={`${lineIndex}-${line}`} className={lines.length > 1 ? "block" : undefined} aria-hidden>
+            {parts.map((part, index) => {
+              const currentIndex = partIndex++;
+              return (
+                <span key={`${index}-${part}`}>
+                  <span
+                    className="lp-word"
+                    style={{ "--lp-d": `${delay + currentIndex * step}ms` } as CSSProperties}
+                  >
+                    {part}
+                  </span>
+                  {hasSpaces && index < parts.length - 1 ? " " : ""}
+                </span>
+              );
+            })}
           </span>
-          {hasSpaces && i < parts.length - 1 ? " " : ""}
-        </span>
-      ))}
+        );
+      })}
     </span>
   );
 }

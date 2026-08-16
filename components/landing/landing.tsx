@@ -172,7 +172,7 @@ const COPY = {
   },
   en: {
     brand: "Live Builder portfolio",
-    announcement: "This is live work shipped by Lantr Builders. Explore the complete creator system",
+    announcement: "Explore live products built by Lantr Builders — and the system behind them",
     nav: { projects: "Builder Work", process: "The Lantr Standard", experience: "Experience It" },
     switch: "中文",
     switchHref: "/",
@@ -180,41 +180,41 @@ const COPY = {
     homeHref: "https://lantr.ai/en",
     navCta: "Return to Lantr",
     eyebrow: "Lantr Builder work · Lantr.site",
-    h1: "Let the work\nprove the ability.",
-    heroBody: "Every product begins with a real problem and is designed, built, tested, and launched under Lantr’s engineering and product standard. The work runs, the system can be explained, and every consequential decision has evidence behind it.",
+    h1: "Let the work\nspeak for itself.",
+    heroBody: "Each product begins with a real problem. Lantr Builders design, build, test, and launch it to the standards our engineering team uses in real products. You can use the result, inspect how it works, and trace every important decision back to evidence.",
     heroPrimary: "Experience the work",
     heroSecondary: "See the Lantr Builder standard",
-    proof: [["03", "products launched"], ["03", "domain directions"], ["100%", "key decisions explainable"]],
+    proof: [["03", "live products"], ["03", "fields represented"], ["100%", "key decisions traceable"]],
     heroIndex: "Selected work / 01—03",
-    bridgeBig: "Real ability leaves real work behind.",
-    bridgeSmall: "Finance, environmental health, and content creation require different expertise. Every Builder turned that expertise into a product people can use, examine, and continue to improve.",
+    bridgeBig: "The strongest evidence is a product that works.",
+    bridgeSmall: "Finance, environmental health, and content creation call for different kinds of expertise. In each field, a Lantr Builder turned subject knowledge into a product people can use, examine, and improve.",
     projectsEyebrow: "Selected Builder work / 01—03",
-    projectsTitle: "Three launched products. Three forms of future-ready creativity.",
-    projectsLead: "Every project includes an independent interactive demo. Open the product, see how it works, and examine the Builder’s decisions around data, safeguards, and user responsibility.",
+    projectsTitle: "Three live products. Three distinct ways to build with AI.",
+    projectsLead: "Each project includes its own interactive demo. Use the product, see how it behaves, and examine the Builder’s decisions around data, safeguards, and user responsibility.",
     creditNote: "Names and cohort details appear only with the Builder’s permission; otherwise, the work remains anonymous.",
-    hosted: "Lantr Builder work · kept live",
-    builtLabel: "Capabilities demonstrated in the work",
+    hosted: "Built at Lantr · live on lantr.site",
+    builtLabel: "What the work demonstrates",
     live: "LIVE · LANTR.SITE",
     open: "Open the interactive demo",
-    processEyebrow: "The Lantr creation standard",
+    processEyebrow: "The Lantr Builder Standard",
     processTitle: "From a real problem to a product that stands up to scrutiny.",
-    processLead: "Every project moves against a frontline engineering and product standard. The Builder owns the consequential decisions, mentors provide professional review, and the final work must run, explain itself, and respond to real feedback.",
+    processLead: "We hold every project to the engineering and product standards used by our own team. Builders own the key decisions; mentors challenge the work through expert review. The final product must work, withstand questions, and improve through real feedback.",
     phases: [
-      ["01", "Choose a problem worth solving", "Begin with the Builder’s domain interest and lived experience. Define the user, context, and standard for success."],
-      ["02", "Establish the product foundation", "Build the core workflow, data model, and AI capability, then bring the first usable version to life early."],
-      ["03", "Improve against evidence", "Observe behavior, verify model output, and engineer sources, boundaries, and human approval into the system."],
+      ["01", "Choose a problem worth solving", "Start with a field the Builder knows or cares about. Define the user, the context, and what a successful result must accomplish."],
+      ["02", "Build the product foundation", "Create the core workflow, data model, and AI capability, then put a usable first version in front of people early."],
+      ["03", "Improve through evidence", "Observe how people use it, verify model output, and make sources, limits, and human approval part of the product itself."],
       ["04", "Launch and defend the work", "Refine reliability and experience until the Builder can explain the architecture, tradeoffs, and every key decision."],
     ],
     processLink: "Explore the complete Builder system",
     accountEyebrow: "Experience the work",
-    accountTitle: "Now open the products yourself.",
-    accountLead: "All three projects provide independent demo environments. No shared account is required; sample data stays isolated, and trading, publishing, and external notifications remain simulated.",
+    accountTitle: "Try the products for yourself.",
+    accountLead: "Each project has its own demo environment. No shared account is required. Sample data stays isolated, while trading, publishing, and external notifications remain simulated.",
     accountNote: "Demos use simulated or public data and automatically clear temporary records.",
-    finalTitle: "The next piece of work worth noticing can start here.",
-    finalBody: "See how Lantr helps the next generation turn domain interest, original judgment, and AI technology into work that ships.",
+    finalTitle: "The next product worth noticing can start here.",
+    finalBody: "See how Lantr works alongside the next generation to turn subject knowledge, original judgment, and AI into products people can use.",
     finalCta: "Enter Lantr",
     backToWork: "Keep exploring",
-    tagline: "Let real work prove creative ability.",
+    tagline: "Real work is the proof.",
     footer: "This page features projects completed and launched by Lantr Builders. Lantr keeps the work online after completion so visitors can experience it. AI Stock Analyst is paper trading only and is not financial advice. AirAware provides general information, not medical advice. PostPilot never publishes automatically.",
     projects: [
       {
@@ -340,7 +340,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 </div>
               </Reveal>
               <div>
-                <h1 className="whitespace-pre-line text-balance font-display text-[3.25rem] font-normal leading-[0.98] tracking-[-0.015em] text-fg sm:text-[4.8rem] lg:text-[5.55rem]"><Words text={c.h1} delay={80} /></h1>
+                <h1 className={`whitespace-pre-line text-balance font-display font-normal tracking-[-0.015em] text-fg ${lang === "en" ? "text-[3.1rem] leading-[0.96] sm:text-[4.15rem] lg:text-[4.8rem]" : "text-[3.25rem] leading-[0.98] sm:text-[4.8rem] lg:text-[5.55rem]"}`}><Words text={c.h1} delay={80} /></h1>
                 <Reveal delay={180}>
                   <p className="mt-7 max-w-2xl text-pretty text-[15px] leading-[1.9] text-muted sm:text-[17px]">{c.heroBody}</p>
                   <div className="mt-8 flex flex-wrap gap-3">
