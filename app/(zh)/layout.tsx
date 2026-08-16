@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { fontClassName } from "@/lib/fonts";
 import "../globals.css";
 
-const title = "蓝图学员成果｜三件足以脱颖而出的真实 AI 产品";
+const title = "兰图 Builder 作品｜三件正式上线的 AI 产品";
 const description =
-  "三件由蓝图学员主导并正式上线的 AI 产品，以真实作品证明判断力、技术能力与执行力，帮助学生在 AI 时代从同领域人才中脱颖而出。";
+  "亲自体验三件由兰图 Builders 主导并正式上线的 AI 产品，以真实作品检验判断力、技术能力与执行力。";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://lantr.site"),
@@ -19,13 +19,13 @@ export const metadata: Metadata = {
     description,
     type: "website",
     url: "/",
-    siteName: "蓝图学员成果",
+    siteName: "兰图 Builder 作品",
     locale: "zh_CN",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#faf9f6",
+  themeColor: "#171511",
 };
 
 export default function RootLayout({

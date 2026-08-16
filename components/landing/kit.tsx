@@ -38,7 +38,7 @@ export function persistLang(lang: Lang) {
   } catch {}
 }
 
-/** Two-tab language pill — 中文 / EN. */
+/** Compact two-tab language switch. */
 export function LangToggle({
   lang,
   onChange,
@@ -47,15 +47,15 @@ export function LangToggle({
   onChange: (l: Lang) => void;
 }) {
   return (
-    <div className="lp-mono inline-flex rounded-full border border-[var(--lp-line-strong)] bg-[var(--lp-surface)] p-0.5 text-[11px] font-medium">
+    <div className="inline-flex border border-line-strong bg-surface p-0.5 font-mono text-[11px] font-medium">
       {(["en", "zh"] as Lang[]).map((l) => (
         <button
           key={l}
           onClick={() => onChange(l)}
-          className={`rounded-full px-2.5 py-1 transition-colors ${
+          className={`px-2.5 py-1 transition-colors ${
             l === lang
-              ? "bg-[var(--lp-fg)] text-[var(--lp-bg)]"
-              : "text-[var(--lp-muted)] hover:text-[var(--lp-fg)]"
+              ? "bg-fg text-bg"
+              : "text-muted hover:text-fg"
           }`}
           aria-pressed={l === lang}
         >
@@ -130,7 +130,7 @@ export function Words({ text, delay = 0 }: { text: string; delay?: number }) {
 }
 
 /** Structural column rules + hatched margins (the FORGE hero frame). */
-export function ColumnRules() {
+export function ColumnRules({ gutters = false }: { gutters?: boolean } = {}) {
   return (
     <div
       aria-hidden
@@ -140,20 +140,24 @@ export function ColumnRules() {
         borderRight: "1px solid var(--lp-rule)",
       }}
     >
-      <span
-        className="lp-hatch absolute inset-y-0 right-full"
-        style={{
-          width: "max(0px, calc((100vw - 72rem) / 2 - 2.5rem))",
-          borderLeft: "1px solid var(--lp-rule)",
-        }}
-      />
-      <span
-        className="lp-hatch absolute inset-y-0 left-full"
-        style={{
-          width: "max(0px, calc((100vw - 72rem) / 2 - 2.5rem))",
-          borderRight: "1px solid var(--lp-rule)",
-        }}
-      />
+      {gutters ? (
+        <>
+          <span
+            className="lp-hatch absolute inset-y-0 right-full"
+            style={{
+              width: "max(0px, calc((100vw - 72rem) / 2 - 2.5rem))",
+              borderLeft: "1px solid var(--lp-rule)",
+            }}
+          />
+          <span
+            className="lp-hatch absolute inset-y-0 left-full"
+            style={{
+              width: "max(0px, calc((100vw - 72rem) / 2 - 2.5rem))",
+              borderRight: "1px solid var(--lp-rule)",
+            }}
+          />
+        </>
+      ) : null}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Vollkorn } from "next/font/google";
 
 export const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -6,11 +6,10 @@ export const geistSans = Geist({
   display: "swap",
 });
 
-export const fraunces = Fraunces({
-  variable: "--font-fraunces",
+export const displaySerif = Vollkorn({
+  variable: "--font-display-serif",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600"],
   style: ["normal", "italic"],
 });
 
@@ -22,4 +21,4 @@ export const geistMono = Geist_Mono({
 });
 
 /** Class string applied to <html> in both locale root layouts. */
-export const fontClassName = `${geistSans.variable} ${fraunces.variable} ${geistMono.variable} antialiased`;
+export const fontClassName = `${geistSans.variable} ${displaySerif.variable} ${geistMono.variable} antialiased`;
