@@ -103,45 +103,45 @@ function ProjectShot({
 
 const COPY = {
   zh: {
-    brand: "往届学生作品",
-    nav: { projects: "作品", process: "完成过程", account: "在线体验" },
+    brand: "学员成果",
+    nav: { projects: "真实作品", process: "培养标准", account: "在线体验" },
     switch: "EN",
     switchHref: "/en",
-    navCta: "看作品",
-    eyebrow: "Lantr 往届学生作品展",
-    h1: "来看看三位学生亲手做出的产品。",
+    navCta: "查看真实作品",
+    eyebrow: "蓝图学员真实成果 · 已上线 AI 产品",
+    h1: "让真正出色的作品，为学生的能力作证。",
     heroBody:
-      "这里收录了三件 Lantr 往届学生作品。每位学生都从自己关心的问题出发，在课程里完成设计、开发和上线。项目结束后，我们把作品留在 lantr.site，任何人都可以打开试试。",
-    heroPrimary: "看看他们做了什么",
-    heroSecondary: "了解 Lantr",
-    proof: ["往届学生原创", "已经上线运行", "Lantr 持续托管"],
-    collageLabel: "往届学生作品 / 01—03",
-    bridgeBig: "三个学生，三个完全不同的题目。",
-    bridgeSmall: "有人喜欢金融，有人关注环境健康，也有人想帮创作者更轻松地写内容。题目来自学生自己的兴趣，产品也由他们一点点做出来。",
-    projectsEyebrow: "精选往届学生作品 / 01—03",
-    projectsTitle: "打开每个项目，看看最初的问题最后变成了什么。",
+      "每件作品都从学生自己的专业兴趣出发，并在蓝图一线工程与产品标准下完成设计、开发、测试和上线。它们真实可用、由学生本人掌握，也是判断力、技术能力与执行力最有说服力的证明，帮助学生在 AI 时代从同领域人才中脱颖而出。",
+    heroPrimary: "亲自体验学生作品",
+    heroSecondary: "了解蓝图培养体系",
+    proof: ["学生本人主导", "真实产品上线", "能力有据可见"],
+    collageLabel: "蓝图学员成果 / 01–03",
+    bridgeBig: "真正的能力，经得起使用，也经得起追问。",
+    bridgeSmall: "金融、环境健康、内容创作，三个方向各不相同。共同之处在于，每位学生都把专业兴趣转化为一件可以展示、可以解释、可以持续精进的真实产品。",
+    projectsEyebrow: "精选学员成果 / 01–03",
+    projectsTitle: "三件作品，三种在 AI 时代脱颖而出的能力。",
     projectsLead:
-      "每个项目都提供无需注册的专属演示。系统会为你单独准备示例数据，AI 功能真实运行，所有修改互不干扰。",
+      "每件作品都开放专属互动演示。AI 功能真实运行，系统会为每位访客建立独立示例数据，让产品实力与学生判断一目了然。",
     creditNote:
       "只有得到学生本人同意，我们才会公开姓名和届次；其余作品保留匿名。",
-    builtLabel: "学生完成的核心部分",
-    hosted: "往届学生作品 · 课程结束后由 Lantr 继续托管",
-    live: "已上线 · lantr.site",
-    open: "开始互动体验",
-    processEyebrow: "从课堂到上线",
-    processTitle: "一个问题，是怎么慢慢变成产品的？",
+    builtLabel: "学生独立掌握的核心能力",
+    hosted: "蓝图学员真实作品 · 持续在线",
+    live: "正式上线 · lantr.site",
+    open: "亲自体验作品",
+    processEyebrow: "从专业兴趣到正式上线",
+    processTitle: "严谨标准，成就出类拔萃的作品。",
     processLead:
-      "导师会先和学生一起弄清楚：谁会用这个产品，最需要解决的是什么。接下来把任务拆小，先做出能用的第一版，再逐步接入 AI、数据、交互和必要的安全规则。",
+      "蓝图以真实产品标准管理每一个项目。从问题定义、技术架构到用户检验与正式上线，每一步都有明确要求。学生亲自完成关键判断，并能够清楚解释产品背后的系统、证据与取舍。",
     phases: [
-      ["01", "找到真问题", "从兴趣、专业方向或亲身经历出发，先说清楚产品究竟要帮谁。"],
-      ["02", "先上线第一版", "用最核心的功能做出一个能打开、能操作的版本，尽早让人试用。"],
-      ["03", "把功能做完整", "接入实际会用到的数据和 AI，同时把风险检查、来源说明和人工确认做进产品。"],
-      ["04", "继续试，继续改", "观察大家在哪里卡住，再调整流程和细节，让整个体验越来越顺手。"],
+      ["01", "选定值得解决的问题", "从专业兴趣、真实经历与未来方向出发，明确用户、需求与衡量成果的标准。"],
+      ["02", "建立产品与技术底座", "完成核心工作流、数据结构与 AI 能力，让第一版尽早进入真实使用。"],
+      ["03", "接受用户与证据检验", "观察真实行为，核实模型输出，并把来源、风控与人工确认写进系统。"],
+      ["04", "精益求精，正式上线", "根据证据持续改进体验与可靠性，最终交付一件学生本人能够完整解释的作品。"],
     ],
     accountEyebrow: "在线体验",
-    accountTitle: "每个项目都可以直接上手。",
+    accountTitle: "亲自体验，作品实力一目了然。",
     accountLead:
-      "不用注册，也不用记演示账号。选择一个项目后，系统会立即创建只有你能看到的临时工作区；之后打开另外两个项目也可以继续使用。",
+      "选择任意项目，系统会立即创建独立临时工作区。无需共享账号，三个项目可以连续体验，所有操作彼此隔离。",
     accountSignedIn: (email: string) => `已登录 ${email}。现在可以直接进入任意作品。`,
     signOut: "退出登录",
     email: "邮箱",
@@ -153,11 +153,11 @@ const COPY = {
     haveAccount: "已经有账户？直接登录",
     newHere: "第一次来？创建账户",
     accountNote: "工作区会在 24 小时后自动清除。每位访客都有独立数据；模拟交易、自动发布和外部通知都不会真正执行。",
-    finalTitle: "也有一个想法，想认真把它做出来吗？",
-    finalBody: "去 lantr.ai 看看课程怎么安排，以及导师会怎样陪学生完成第一版产品。",
-    finalCta: "了解 Lantr 课程",
-    backToWork: "再看一遍学生作品",
-    tagline: "把想法做出来，也把它真正上线。",
+    finalTitle: "让下一件出类拔萃的作品，写上你的名字。",
+    finalBody: "了解蓝图如何以一线 AI 工程与产品标准，帮助学生把专业兴趣转化为真正上线、足以脱颖而出的成果。",
+    finalCta: "了解蓝图培养体系",
+    backToWork: "继续体验学生作品",
+    tagline: "以真实作品，证明出色能力。",
     footer:
       "本页展示 Lantr 往届学生完成的项目。课程结束后，Lantr 继续托管这些作品，供访客体验。演示使用模拟或公开数据；AI Stock Analyst 只进行模拟交易，不构成投资建议；AirAware 的内容只供日常参考，不代替医疗建议；PostPilot 不会自动替用户发布内容。",
     projects: [
@@ -170,10 +170,10 @@ const COPY = {
         shot: "/shots/analyst.jpg",
         alt: "往届学生项目 AI Stock Analyst 的投资组合页面",
         field: "金融 × 人工智能",
-        question: "AI 可以怎样帮人研究投资组合，同时让每笔订单都由本人决定？",
+        question: "怎样让 AI 形成有证据、受风控约束，并最终由用户负责的投资判断？",
         summary:
-          "学生把实时行情、投资偏好和模拟交易连成了一套完整流程。AI 会整理研究结果并提出交易建议，随后由风险规则检查，再交给用户确认。",
-        bullets: ["用自己的话说明投资偏好和风险要求", "查看实时行情，整理研究结果和交易建议", "每笔模拟订单都要经过风险检查和用户确认"],
+          "学生构建了一套贯穿实时研究、投资偏好、风险审查与模拟执行的完整系统。每项建议都有数据依据，经过规则检验，并由用户保留最终决定权。",
+        bullets: ["将自然语言偏好转化为明确风险边界", "结合实时行情形成有依据的研究与建议", "以代码检查每笔模拟订单并要求用户确认"],
         note: "使用模拟资金，不涉及真实交易",
         color: "#c9f04a",
         wash: "#edf5cf",
@@ -187,10 +187,10 @@ const COPY = {
         shot: "/shots/airaware.jpg",
         alt: "往届学生项目 AirAware 的今日环境规划页面",
         field: "环境与健康 × 数据",
-        question: "天气数据很多，怎样才能真的帮人安排好今天？",
+        question: "如何把分散的环境数据，转化为可信赖的个人行动建议？",
         summary:
-          "学生把紫外线、高温、空气质量和花粉预报放进个人日程里。产品会逐段判断户外活动是否合适，并在条件变化时重新给出安排。",
-        bullets: ["接入公开的天气与空气质量数据", "把公共健康标准写成可以逐项检查的规则", "根据个人日程安排活动，预报变化后及时更新"],
+          "学生将紫外线、高温、空气质量与花粉预报统一纳入个人日程。系统逐段评估户外活动条件，并在环境变化后自动重新计算建议。",
+        bullets: ["整合公开天气、空气质量与花粉数据", "将公共健康标准转化为可验证规则", "结合个人日程生成并动态更新行动方案"],
         note: "内容根据公开环境数据生成，不代替医疗建议",
         color: "#52c8ff",
         wash: "#dff4ff",
@@ -204,10 +204,10 @@ const COPY = {
         shot: "/shots/postpilot.jpg",
         alt: "往届学生项目 PostPilot 的内容工作台页面",
         field: "内容创作 × 人工智能",
-        question: "AI 可以怎样帮创作者写作，又让每篇内容都有真实材料可查？",
+        question: "怎样让 AI 提升内容生产力，同时守住来源、质量与发布责任？",
         summary:
-          "学生让产品先整理创作者自己的访谈、笔记和旧内容，再从真实材料中找选题、写初稿。每篇内容都会注明用了哪些材料，最后仍由创作者审核和发布。",
-        bullets: ["把访谈、笔记和旧内容整理成可查找的材料", "为不同平台准备初稿，并在发布前逐项检查", "内容由用户审核，产品只导出、不会自动发布"],
+          "学生设计了一套以创作者原始材料为依据的内容工作流。系统先组织访谈、笔记与历史内容，再生成选题和初稿，同时保留来源与人工审核。",
+        bullets: ["将访谈、笔记与历史内容整理为可追溯资料", "为不同平台生成初稿并执行编辑规则检查", "所有内容由用户审核，系统只负责导出"],
         note: "草稿由用户审核，产品不会自动发布",
         color: "#7b79ff",
         wash: "#e8e6ff",
@@ -215,45 +215,45 @@ const COPY = {
     ],
   },
   en: {
-    brand: "Past student work",
-    nav: { projects: "Work", process: "How it was built", account: "Try it" },
+    brand: "Student outcomes",
+    nav: { projects: "Live work", process: "Our standard", account: "Try it" },
     switch: "中文",
     switchHref: "/",
-    navCta: "View the work",
-    eyebrow: "Lantr Student Showcase · Past student projects",
-    h1: "Meet three products our students built and shipped.",
+    navCta: "Explore the work",
+    eyebrow: "Lantr student outcomes · Live AI products",
+    h1: "Exceptional work makes talent impossible to overlook.",
     heroBody:
-      "Each project here began with something a Lantr student genuinely wanted to explore. They designed it, built it, and put it online during the program. We keep the finished work live on lantr.site so anyone can try it.",
-    heroPrimary: "See what they built",
-    heroSecondary: "About Lantr",
-    proof: ["Original student work", "Live and working", "Hosted by Lantr"],
-    collageLabel: "PAST STUDENT WORK / 01—03",
-    bridgeBig: "Three students, three very different questions.",
-    bridgeSmall: "One student was interested in markets, another in environmental health, and another in the way creators work. Their interests shaped both the question and the finished product.",
-    projectsEyebrow: "Selected student work / 01—03",
-    projectsTitle: "Open each project and see where the original question led.",
+      "Each product began with a student’s domain interest and was developed under Lantr’s frontline engineering and product standards. The result is live, student-owned evidence of judgment, technical command, and follow-through. These are the qualities that help exceptional talent stand out in the AI era.",
+    heroPrimary: "Experience the products",
+    heroSecondary: "Explore the Lantr system",
+    proof: ["Led by the student", "Launched for real use", "Ability made visible"],
+    collageLabel: "LANTR STUDENT OUTCOMES / 01–03",
+    bridgeBig: "Serious ability stands up to use and scrutiny.",
+    bridgeSmall: "Finance, environmental health, and content creation demand different knowledge. Each student turned that knowledge into a product they can demonstrate, defend, and continue to improve.",
+    projectsEyebrow: "Selected student outcomes / 01–03",
+    projectsTitle: "Three products. Three ways exceptional talent stands out.",
     projectsLead:
-      "Every project has an instant private demo. The AI features are live, while isolated sample data keeps each visitor's experience separate.",
+      "Every product includes a private interactive demo with live AI features and isolated sample data. Open the work and examine the product decisions for yourself.",
     creditNote:
       "We publish names and cohort details only when the student has agreed; otherwise, the work stays anonymous.",
-    builtLabel: "What the student built",
-    hosted: "Past student project · hosted by Lantr",
-    live: "Live on lantr.site",
-    open: "Try the interactive demo",
-    processEyebrow: "From class to launch",
-    processTitle: "How does a question become a working product?",
+    builtLabel: "Capabilities demonstrated by the student",
+    hosted: "Lantr student work · kept live",
+    live: "Launched on lantr.site",
+    open: "Experience the product",
+    processEyebrow: "From domain interest to launch",
+    processTitle: "Exacting standards produce exceptional work.",
     processLead:
-      "Mentors help students get specific about the user and the problem, then break the build into manageable pieces. Students release a small first version and add AI, data, interaction, and safeguards as the product takes shape.",
+      "Lantr manages every project against real product standards. From problem definition and technical architecture to user evidence and launch, each stage has clear requirements. Students own the consequential decisions and learn to defend the system, evidence, and tradeoffs behind their work.",
     phases: [
-      ["01", "Find the real problem", "Begin with an interest, intended field, or lived experience—and get specific about who the product helps."],
-      ["02", "Ship early", "Put the core experience online as soon as it is usable, then learn from the first visitors."],
-      ["03", "Build out the product", "Connect live data and AI, then add the risk checks, citations, and approval steps the product needs."],
-      ["04", "Try it and keep improving", "Watch where people get stuck, adjust the flow, and make each version easier to use."],
+      ["01", "Choose a consequential problem", "Start from domain interest, lived experience, and future direction. Define the user, need, and standard for success."],
+      ["02", "Establish the product and technical foundation", "Build the core workflow, data model, and AI capability, then put the first version into real use."],
+      ["03", "Submit the work to evidence", "Observe user behavior, verify model output, and engineer the sources, safeguards, and approval steps the product requires."],
+      ["04", "Refine and launch", "Improve reliability and experience against evidence, then deliver a product the student can explain with precision and confidence."],
     ],
     accountEyebrow: "Try the work",
-    accountTitle: "Every project is ready to try.",
+    accountTitle: "Experience the quality for yourself.",
     accountLead:
-      "No signup and no shared password. Choose a project and we’ll create a private temporary workspace instantly; the same session carries into the other demos.",
+      "Choose any product and receive an isolated temporary workspace immediately. The same private session carries across all three demos.",
     accountSignedIn: (email: string) => `Signed in as ${email}. You can now open any project directly.`,
     signOut: "Sign out",
     email: "Email",
@@ -265,11 +265,11 @@ const COPY = {
     haveAccount: "Already have an account? Sign in",
     newHere: "First visit? Create an account",
     accountNote: "The workspace clears after 24 hours. Every visitor has isolated data; trading, publishing, and external notifications remain simulated.",
-    finalTitle: "Have an idea you would like to build?",
-    finalBody: "Visit lantr.ai to see how the program works and how mentors help students reach a useful first version.",
-    finalCta: "Explore the Lantr program",
-    backToWork: "Return to student work",
-    tagline: "Make the idea real. Put it in the world.",
+    finalTitle: "Build work that makes your ability impossible to overlook.",
+    finalBody: "Discover how Lantr’s frontline AI engineering and product standards help students turn domain interests into launched work that stands apart.",
+    finalCta: "Explore the Lantr system",
+    backToWork: "Continue exploring student work",
+    tagline: "Let the work prove the ability.",
     footer:
       "This page features projects completed by past Lantr students and kept online by Lantr for visitors to explore. Demos use simulated or public data. AI Stock Analyst is paper trading only and is not financial advice. AirAware provides general information, not medical advice. PostPilot never publishes automatically.",
     projects: [
@@ -282,11 +282,11 @@ const COPY = {
         shot: "/shots/analyst.jpg",
         alt: "Portfolio screen from the past student project AI Stock Analyst",
         field: "Finance × artificial intelligence",
-        question: "How could AI research a portfolio while the investor stays in charge of every order?",
+        question: "How can AI form evidence-backed investment judgments within clear risk controls and human accountability?",
         summary:
-          "The student connected live market research, investor preferences, and paper trading in one product. It prepares evidence-backed trade ideas, runs each one through a rules-based risk check, and asks the user to approve the order.",
-        bullets: ["Turn plain-language preferences into clear risk limits", "Research live markets and prepare trade proposals", "Check every paper order with code and ask for approval"],
-        note: "Simulated funds only—no real trading",
+          "The student built an end-to-end system connecting live market research, investor preferences, risk review, and simulated execution. Every proposal carries evidence, passes coded rules, and leaves the final decision with the user.",
+        bullets: ["Translate natural-language preferences into explicit risk limits", "Use live market data to form evidence-backed research and proposals", "Check every paper order in code and require user approval"],
+        note: "Simulated funds only, with no real trading",
         color: "#c9f04a",
         wash: "#edf5cf",
       },
@@ -299,10 +299,10 @@ const COPY = {
         shot: "/shots/airaware.jpg",
         alt: "Today screen from the past student project AirAware",
         field: "Environmental health × data",
-        question: "There is plenty of weather data. How can it actually help someone plan today?",
+        question: "How can fragmented environmental data become trustworthy personal guidance?",
         summary:
-          "The student placed UV, heat, air quality, and pollen forecasts inside a personal schedule. The product checks each outdoor window and revises the plan when conditions change.",
-        bullets: ["Connect public weather and air-quality data", "Turn public-health bands into testable rules", "Build a personal plan and recalculate it when forecasts change"],
+          "The student brought UV, heat, air quality, and pollen forecasts into one personal schedule. The system evaluates each outdoor window and recalculates its guidance when conditions change.",
+        bullets: ["Integrate public weather, air-quality, and pollen data", "Translate public-health standards into testable rules", "Generate a personal plan and update it as forecasts change"],
         note: "General environmental-health information, not medical advice",
         color: "#52c8ff",
         wash: "#dff4ff",
@@ -316,10 +316,10 @@ const COPY = {
         shot: "/shots/postpilot.jpg",
         alt: "Content workspace from the past student project PostPilot",
         field: "Content creation × artificial intelligence",
-        question: "How can AI help a creator write while keeping every draft grounded in their own material?",
+        question: "How can AI increase creative output while preserving sources, quality, and publishing responsibility?",
         summary:
-          "The student designed the product to learn from a creator’s own interviews, notes, and past posts before it develops ideas or drafts. Sources remain visible, and the creator keeps final review and publishing control.",
-        bullets: ["Organize source material into searchable, linked excerpts", "Create platform-specific drafts and check editorial rules", "Let users review and export every draft before publishing"],
+          "The student designed an editorial system grounded in the creator’s original material. It organizes interviews, notes, and past work before generating ideas and drafts, while preserving source visibility and human review.",
+        bullets: ["Organize interviews, notes, and past work into traceable sources", "Create channel-specific drafts and apply editorial checks", "Keep every draft under user review and export control"],
         note: "Users review every draft; the product never auto-publishes",
         color: "#7b79ff",
         wash: "#e8e6ff",
@@ -513,7 +513,7 @@ export function Landing({ lang }: { lang: Lang }) {
                     {c.eyebrow}
                   </span>
                 </Reveal>
-                <h1 className="mt-7 max-w-3xl text-balance font-display text-[3.15rem] font-semibold leading-[0.98] tracking-[-0.045em] text-fg sm:text-[4.65rem] lg:text-[5.35rem]">
+                <h1 className="mt-7 max-w-3xl text-balance font-display text-[2.7rem] font-semibold leading-[1.02] tracking-[-0.035em] text-fg sm:text-[3.85rem] lg:text-[4.55rem]">
                   <Words text={c.h1} delay={100} />
                 </h1>
                 <Reveal delay={220}>
@@ -605,7 +605,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 {c.projectsEyebrow}
               </div>
               <div>
-                <h2 className="max-w-3xl text-balance font-display text-[2.5rem] font-semibold leading-[1.04] tracking-[-0.04em] text-fg sm:text-[4rem]">
+                <h2 className="max-w-3xl text-balance font-display text-[2.25rem] font-semibold leading-[1.07] tracking-[-0.03em] text-fg sm:text-[3.35rem]">
                   {c.projectsTitle}
                 </h2>
                 <p className="mt-5 max-w-2xl text-base leading-7 text-muted">{c.projectsLead}</p>
@@ -628,7 +628,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 <div className="font-mono text-[10px] font-medium uppercase tracking-[0.17em] text-orange">
                   {c.processEyebrow}
                 </div>
-                <h2 className="mt-5 text-balance font-display text-[2.7rem] font-semibold leading-[1.04] tracking-[-0.04em] text-fg sm:text-[4.2rem]">
+                <h2 className="mt-5 text-balance font-display text-[2.3rem] font-semibold leading-[1.07] tracking-[-0.03em] text-fg sm:text-[3.4rem]">
                   {c.processTitle}
                 </h2>
                 <p className="mt-6 max-w-xl text-base leading-7 text-muted">{c.processLead}</p>
@@ -660,7 +660,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 <span className="font-mono text-[10px] font-medium uppercase tracking-[0.17em] text-[#bfc8ff]">
                   {c.accountEyebrow}
                 </span>
-                <h2 className="mt-5 max-w-xl text-balance font-display text-[2.8rem] font-semibold leading-[1.02] tracking-[-0.04em] sm:text-[4.4rem]">
+                <h2 className="mt-5 max-w-xl text-balance font-display text-[2.35rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-[3.45rem]">
                   {c.accountTitle}
                 </h2>
                 <p className="mt-6 max-w-lg text-base leading-7 text-white/70">{c.accountLead}</p>
@@ -689,7 +689,7 @@ export function Landing({ lang }: { lang: Lang }) {
         <section className="bg-fg py-20 text-white sm:py-28">
           <Container className="text-center">
             <Reveal>
-              <h2 className="mx-auto max-w-4xl text-balance font-display text-[2.7rem] font-semibold leading-[1.04] tracking-[-0.04em] sm:text-[4.6rem]">
+              <h2 className="mx-auto max-w-4xl text-balance font-display text-[2.35rem] font-semibold leading-[1.07] tracking-[-0.03em] sm:text-[3.65rem]">
                 {c.finalTitle}
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/60">{c.finalBody}</p>

@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { fontClassName } from "@/lib/fonts";
 import "../globals.css";
 
-const title = "Lantr Past Student Showcase · Three Shipped AI Projects";
+const title = "Lantr Student Outcomes | Live AI Work That Stands Out";
 const description =
-  "Explore three real products completed and shipped by past Lantr students: an AI investment research assistant, an environmental-health planner, and a creator content workspace.";
+  "Explore three live, student-led AI products that demonstrate judgment, technical command, and the ability to deliver work that stands out in the AI era.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://lantr.site"),
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     description,
     type: "website",
     url: "/en",
-    siteName: "Lantr Past Student Showcase",
+    siteName: "Lantr Student Outcomes",
     locale: "en_US",
   },
 };
