@@ -392,7 +392,7 @@ export function Landing({ lang }: { lang: Lang }) {
           <Container>
             <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-20">
               <Reveal><h2 className="max-w-xl font-display text-[2.35rem] font-normal leading-[1.08] sm:text-[3.1rem]">{c.bridgeBig}</h2></Reveal>
-              <Reveal delay={80}><p className="max-w-2xl text-[13px] leading-[1.9] text-white/55">{c.bridgeSmall}</p></Reveal>
+              <Reveal delay={80}><p className="max-w-2xl text-[15px] leading-[1.85] text-white/62 sm:text-[16px]">{c.bridgeSmall}</p></Reveal>
             </div>
           </Container>
         </SectionFrame>
