@@ -4,7 +4,7 @@ import "../globals.css";
 
 const title = "Lantr Builder Work | Live AI Products";
 const description =
-  "Try three live AI products designed, built, and launched by Lantr Builders: working software you can use, question, and trace decision by decision.";
+  "Three live AI products built and shipped by Lantr Builders. Open the demos, use the features, and see how each one was made.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://lantr.site"),
