@@ -173,7 +173,7 @@ const COPY = {
   en: {
     brand: "Live Builder portfolio",
     announcement: "Explore live products built by Lantr Builders, and the system behind them",
-    nav: { projects: "Builder Work", process: "The Lantr Standard", experience: "Try the Demos" },
+    nav: { projects: "Builder Work", process: "The Lantr Standard", experience: "Demos" },
     switch: "中文",
     switchHref: "/",
     mainHref: "https://lantr.ai/en/work",
@@ -182,7 +182,7 @@ const COPY = {
     eyebrow: "Lantr Builder work · Lantr.site",
     h1: "Let the work\nspeak for itself.",
     heroBody: "Every product here was designed, built, and shipped by a Lantr Builder, working with our engineers and held to the same review process. All three are live. Open one, look around, and judge the work for yourself.",
-    heroPrimary: "Try the products",
+    heroPrimary: "See the projects",
     heroSecondary: "About the Builder program",
     proof: [["03", "live products"], ["03", "fields represented"], ["100%", "of key decisions explained"]],
     heroIndex: "Selected work / 01–03",
@@ -195,7 +195,7 @@ const COPY = {
     hosted: "Built at Lantr · live on lantr.site",
     builtLabel: "Under the hood",
     live: "LIVE · LANTR.SITE",
-    open: "Open the live demo",
+    open: "Open the demo",
     processEyebrow: "The Lantr Builder Standard",
     processTitle: "From a first idea to a public launch.",
     processLead: "Builders make the key decisions themselves. Mentors review the work the way they'd review a colleague's, and nothing launches until it runs reliably and the Builder can explain how it works.",
@@ -207,7 +207,7 @@ const COPY = {
     ],
     processLink: "Explore the full Builder program",
     accountEyebrow: "Live demos",
-    accountTitle: "Try the products for yourself.",
+    accountTitle: "The demos are open.",
     accountLead: "Each demo runs in its own environment with sample data, no sign-up needed. Trades, posts, and notifications are all simulated.",
     accountNote: "Demos run on simulated or public data and clear temporary records automatically.",
     finalTitle: "The next project will start the same way.",
@@ -453,7 +453,7 @@ export function Landing({ lang }: { lang: Lang }) {
                     <span className="font-display text-2xl text-accent-ink">{project.number}</span>
                     <span className="mt-8 font-mono text-[9px] font-semibold uppercase tracking-[0.15em] text-muted">{project.field}</span>
                     <strong className="mt-2 text-[17px] font-semibold text-fg">{project.name}</strong>
-                    <span className="mt-auto flex items-center justify-between border-t border-line pt-4 text-[11px] font-semibold text-fg">{c.open}<ArrowUpRight className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></span>
+                    <span className="mt-auto flex items-center justify-between border-t border-line pt-4 font-mono text-[10px] font-medium tracking-[0.03em] text-fg">{project.domain}<ArrowUpRight className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></span>
                   </a>
                 </Reveal>
               ))}
