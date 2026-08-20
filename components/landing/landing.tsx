@@ -324,9 +324,9 @@ export function Landing({ lang }: { lang: Lang }) {
     <div className="min-h-screen bg-bg text-ink">
       <Header lang={lang} copy={c} />
       <main>
-        <SectionFrame gutters className={`border-b border-line bg-bg ${lang === "zh" ? "py-16 sm:py-24 lg:py-28" : "py-14 sm:py-16 lg:py-20"}`}>
+        <SectionFrame gutters className={`border-b border-line bg-bg ${lang === "zh" ? "py-16 sm:py-24 lg:py-28" : "py-12 sm:py-14 lg:py-16"}`}>
           <Container>
-            <div className={lang === "zh" ? "grid gap-9 lg:grid-cols-[0.65fr_1.35fr] lg:gap-20" : ""}>
+            <div className={lang === "zh" ? "grid gap-9 lg:grid-cols-[0.65fr_1.35fr] lg:gap-20" : "grid gap-7 lg:grid-cols-[1.18fr_0.82fr] lg:items-end lg:gap-16"}>
               {lang === "zh" ? (
                 <Reveal>
                   <Eyebrow>{c.eyebrow}</Eyebrow>
@@ -341,17 +341,17 @@ export function Landing({ lang }: { lang: Lang }) {
                   </div>
                 </Reveal>
               ) : null}
-              <div>
-                <h1 className={`whitespace-pre-line text-balance font-display font-normal tracking-[-0.015em] text-fg ${lang === "en" ? "text-[3.1rem] leading-[0.96] sm:text-[4.15rem] lg:text-[4.8rem]" : "text-[3.25rem] leading-[0.98] sm:text-[4.8rem] lg:text-[5.55rem]"}`}><Words text={c.h1} delay={80} /></h1>
-                <Reveal delay={180}>
-                  <p className="mt-7 max-w-2xl text-pretty text-[15px] leading-[1.9] text-muted sm:text-[17px]">{c.heroBody}</p>
+              <div className={lang === "en" ? "contents" : undefined}>
+                <h1 className={`whitespace-pre-line text-balance font-display font-normal tracking-[-0.015em] text-fg ${lang === "en" ? "text-[3rem] leading-[0.98] sm:text-[3.8rem] lg:text-[4.3rem]" : "text-[3.25rem] leading-[0.98] sm:text-[4.8rem] lg:text-[5.55rem]"}`}><Words text={c.h1} delay={80} /></h1>
+                <Reveal delay={180} className={lang === "en" ? "lg:pb-2" : undefined}>
+                  <p className={`text-pretty text-[15px] text-muted ${lang === "en" ? "max-w-md leading-[1.8]" : "mt-7 max-w-2xl leading-[1.9] sm:text-[17px]"}`}>{c.heroBody}</p>
                   {lang === "zh" ? (
                     <div className="mt-8 flex flex-wrap gap-3">
                       <a href="#projects" className="group inline-flex h-12 items-center gap-2 bg-accent px-5 text-[13px] font-semibold text-white hover:bg-accent-ink">{c.heroPrimary}<Arrow className="transition-transform group-hover:translate-x-0.5" /></a>
                       <a href={c.mainHref} className="inline-flex h-12 items-center gap-2 border border-line-strong bg-surface px-5 text-[13px] font-semibold text-fg hover:border-fg/45">{c.heroSecondary}<ArrowUpRight /></a>
                     </div>
                   ) : (
-                    <a href={c.mainHref} className="group mt-7 inline-flex items-center gap-2 border-b border-fg/30 pb-1 text-[13px] font-semibold text-fg hover:border-accent-ink hover:text-accent-ink">{c.heroSecondary}<ArrowUpRight className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></a>
+                    <a href={c.mainHref} className="group mt-5 inline-flex items-center gap-2 border-b border-fg/30 pb-1 text-[13px] font-semibold text-fg hover:border-accent-ink hover:text-accent-ink">{c.heroSecondary}<ArrowUpRight className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></a>
                   )}
                 </Reveal>
               </div>
