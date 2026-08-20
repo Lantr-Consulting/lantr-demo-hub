@@ -181,7 +181,7 @@ const COPY = {
     navCta: "Return to Lantr",
     eyebrow: "Lantr Builder work · Lantr.site",
     h1: "Projects by\nLantr Builders",
-    heroBody: "Three AI products designed, built, and launched by students in the Lantr Builder program. Each one is live on lantr.site, with a demo you can open and explore.",
+    heroBody: "Three AI products designed, built, and launched by students in the Lantr Builder program.",
     heroPrimary: "See the projects",
     heroSecondary: "About the Builder program",
     proof: [["03", "live products"], ["03", "fields represented"], ["04", "phases from idea to launch"]],
@@ -190,7 +190,7 @@ const COPY = {
     bridgeSmall: "Each Builder started from a field they knew: finance, environmental health, content creation. What follows is the product each of them designed, built, and launched.",
     projectsEyebrow: "Selected Builder work / 01–03",
     projectsTitle: "The projects",
-    projectsLead: "Each project below links to its own interactive demo. The notes cover what it does and how the Builder handled data, safeguards, and final say.",
+    projectsLead: "",
     creditNote: "Names and cohort details appear only with the Builder’s permission; otherwise, the work remains anonymous.",
     hosted: "Built at Lantr · live on lantr.site",
     builtLabel: "Under the hood",
@@ -388,14 +388,16 @@ export function Landing({ lang }: { lang: Lang }) {
           </Container>
         </SectionFrame>
 
-        <SectionFrame className="border-b border-white/10 bg-scene py-10 text-white [--lp-rule:rgba(255,255,255,0.07)]">
-          <Container>
-            <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-20">
-              <Reveal><h2 className="max-w-xl font-display text-[2.35rem] font-normal leading-[1.08] sm:text-[3.1rem]">{c.bridgeBig}</h2></Reveal>
-              <Reveal delay={80}><p className="max-w-2xl text-[15px] leading-[1.85] text-white/62 sm:text-[16px]">{c.bridgeSmall}</p></Reveal>
-            </div>
-          </Container>
-        </SectionFrame>
+        {lang === "zh" ? (
+          <SectionFrame className="border-b border-white/10 bg-scene py-10 text-white [--lp-rule:rgba(255,255,255,0.07)]">
+            <Container>
+              <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-20">
+                <Reveal><h2 className="max-w-xl font-display text-[2.35rem] font-normal leading-[1.08] sm:text-[3.1rem]">{c.bridgeBig}</h2></Reveal>
+                <Reveal delay={80}><p className="max-w-2xl text-[15px] leading-[1.85] text-white/62 sm:text-[16px]">{c.bridgeSmall}</p></Reveal>
+              </div>
+            </Container>
+          </SectionFrame>
+        ) : null}
 
         <SectionFrame id="projects" gutters className="scroll-mt-24 bg-bg py-20 sm:py-28">
           <Container>
@@ -403,7 +405,7 @@ export function Landing({ lang }: { lang: Lang }) {
               <Eyebrow>{c.projectsEyebrow}</Eyebrow>
               <div>
                 <h2 className="max-w-4xl text-balance font-display text-[2.45rem] font-normal leading-[1.06] text-fg sm:text-[3.6rem]">{c.projectsTitle}</h2>
-                <p className="mt-5 max-w-2xl text-[14px] leading-[1.85] text-muted">{c.projectsLead}</p>
+                {c.projectsLead ? <p className="mt-5 max-w-2xl text-[14px] leading-[1.85] text-muted">{c.projectsLead}</p> : null}
                 <p className="mt-3 max-w-2xl text-[10.5px] leading-5 text-faint">{c.creditNote}</p>
               </div>
             </Reveal>
