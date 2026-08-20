@@ -324,12 +324,12 @@ export function Landing({ lang }: { lang: Lang }) {
     <div className="min-h-screen bg-bg text-ink">
       <Header lang={lang} copy={c} />
       <main>
-        <SectionFrame gutters className="border-b border-line bg-bg py-16 sm:py-24 lg:py-28">
+        <SectionFrame gutters className={`border-b border-line bg-bg ${lang === "zh" ? "py-16 sm:py-24 lg:py-28" : "py-14 sm:py-16 lg:py-20"}`}>
           <Container>
-            <div className="grid gap-9 lg:grid-cols-[0.65fr_1.35fr] lg:gap-20">
-              <Reveal>
-                <Eyebrow>{c.eyebrow}</Eyebrow>
-                {lang === "zh" ? (
+            <div className={lang === "zh" ? "grid gap-9 lg:grid-cols-[0.65fr_1.35fr] lg:gap-20" : ""}>
+              {lang === "zh" ? (
+                <Reveal>
+                  <Eyebrow>{c.eyebrow}</Eyebrow>
                   <div className="mt-10 hidden border-t border-line-strong lg:block">
                     {projects.map((project) => (
                       <a key={project.number} href={project.href} className="group grid grid-cols-[36px_1fr_auto] items-center gap-3 border-b border-line-strong py-4">
@@ -339,16 +339,20 @@ export function Landing({ lang }: { lang: Lang }) {
                       </a>
                     ))}
                   </div>
-                ) : null}
-              </Reveal>
+                </Reveal>
+              ) : null}
               <div>
                 <h1 className={`whitespace-pre-line text-balance font-display font-normal tracking-[-0.015em] text-fg ${lang === "en" ? "text-[3.1rem] leading-[0.96] sm:text-[4.15rem] lg:text-[4.8rem]" : "text-[3.25rem] leading-[0.98] sm:text-[4.8rem] lg:text-[5.55rem]"}`}><Words text={c.h1} delay={80} /></h1>
                 <Reveal delay={180}>
                   <p className="mt-7 max-w-2xl text-pretty text-[15px] leading-[1.9] text-muted sm:text-[17px]">{c.heroBody}</p>
-                  <div className="mt-8 flex flex-wrap gap-3">
-                    <a href="#projects" className="group inline-flex h-12 items-center gap-2 bg-accent px-5 text-[13px] font-semibold text-white hover:bg-accent-ink">{c.heroPrimary}<Arrow className="transition-transform group-hover:translate-x-0.5" /></a>
-                    <a href={c.mainHref} className="inline-flex h-12 items-center gap-2 border border-line-strong bg-surface px-5 text-[13px] font-semibold text-fg hover:border-fg/45">{c.heroSecondary}<ArrowUpRight /></a>
-                  </div>
+                  {lang === "zh" ? (
+                    <div className="mt-8 flex flex-wrap gap-3">
+                      <a href="#projects" className="group inline-flex h-12 items-center gap-2 bg-accent px-5 text-[13px] font-semibold text-white hover:bg-accent-ink">{c.heroPrimary}<Arrow className="transition-transform group-hover:translate-x-0.5" /></a>
+                      <a href={c.mainHref} className="inline-flex h-12 items-center gap-2 border border-line-strong bg-surface px-5 text-[13px] font-semibold text-fg hover:border-fg/45">{c.heroSecondary}<ArrowUpRight /></a>
+                    </div>
+                  ) : (
+                    <a href={c.mainHref} className="group mt-7 inline-flex items-center gap-2 border-b border-fg/30 pb-1 text-[13px] font-semibold text-fg hover:border-accent-ink hover:text-accent-ink">{c.heroSecondary}<ArrowUpRight className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></a>
+                  )}
                 </Reveal>
               </div>
             </div>
@@ -377,7 +381,7 @@ export function Landing({ lang }: { lang: Lang }) {
               </div>
             </Reveal> : null}
 
-            <div className="mt-8 grid border-y border-line-strong sm:grid-cols-3">
+            {lang === "zh" ? <div className="mt-8 grid border-y border-line-strong sm:grid-cols-3">
               {c.proof.map(([value, label], index) => (
                 <Reveal key={label} delay={300 + index * 60}>
                   <div className={`grid grid-cols-[72px_1fr] items-center gap-4 py-5 sm:block sm:px-6 ${index > 0 ? "border-t border-line-strong sm:border-l sm:border-t-0" : ""}`}>
@@ -386,7 +390,7 @@ export function Landing({ lang }: { lang: Lang }) {
                   </div>
                 </Reveal>
               ))}
-            </div>
+            </div> : null}
           </Container>
         </SectionFrame>
 
@@ -401,20 +405,22 @@ export function Landing({ lang }: { lang: Lang }) {
           </SectionFrame>
         ) : null}
 
-        <SectionFrame id="projects" gutters className="scroll-mt-24 bg-bg py-20 sm:py-28">
+        <SectionFrame id="projects" gutters className={`scroll-mt-24 bg-bg ${lang === "zh" ? "py-20 sm:py-28" : "py-12 sm:py-16"}`}>
           <Container>
-            <Reveal className="grid gap-7 lg:grid-cols-[0.62fr_1.38fr] lg:items-end lg:gap-20">
-              <Eyebrow>{c.projectsEyebrow}</Eyebrow>
-              <div>
-                <h2 className="max-w-4xl text-balance font-display text-[2.45rem] font-normal leading-[1.06] text-fg sm:text-[3.6rem]">{c.projectsTitle}</h2>
-                {c.projectsLead ? <p className="mt-5 max-w-2xl text-[14px] leading-[1.85] text-muted">{c.projectsLead}</p> : null}
-                <p className="mt-3 max-w-2xl text-[10.5px] leading-5 text-faint">{c.creditNote}</p>
-              </div>
-            </Reveal>
-            <div className="mt-12 space-y-7 sm:mt-16 sm:space-y-10">
+            {lang === "zh" ? (
+              <Reveal className="grid gap-7 lg:grid-cols-[0.62fr_1.38fr] lg:items-end lg:gap-20">
+                <Eyebrow>{c.projectsEyebrow}</Eyebrow>
+                <div>
+                  <h2 className="max-w-4xl text-balance font-display text-[2.45rem] font-normal leading-[1.06] text-fg sm:text-[3.6rem]">{c.projectsTitle}</h2>
+                  {c.projectsLead ? <p className="mt-5 max-w-2xl text-[14px] leading-[1.85] text-muted">{c.projectsLead}</p> : null}
+                  <p className="mt-3 max-w-2xl text-[10.5px] leading-5 text-faint">{c.creditNote}</p>
+                </div>
+              </Reveal>
+            ) : null}
+            <div className={`space-y-7 sm:space-y-10 ${lang === "zh" ? "mt-12 sm:mt-16" : ""}`}>
               {projects.map((project, index) => <ProjectCase key={project.number} project={project} copy={c} reverse={index % 2 === 1} />)}
             </div>
-            {lang === "en" ? <p className="mt-5 font-mono text-[9px] leading-5 tracking-[0.04em] text-muted">{c.accountLead}</p> : null}
+            {lang === "en" ? <p className="mt-6 max-w-3xl font-mono text-[9px] leading-5 tracking-[0.04em] text-muted">{c.accountLead} {c.creditNote}</p> : null}
           </Container>
         </SectionFrame>
 
