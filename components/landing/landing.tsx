@@ -197,8 +197,8 @@ const COPY = {
     live: "LIVE · LANTR.SITE",
     open: "Open the demo",
     processEyebrow: "The Lantr Builder Standard",
-    processTitle: "From a first idea to a public launch.",
-    processLead: "Builders make the key decisions themselves. Mentors review the work the way they'd review a colleague's, and nothing launches until it runs reliably and the Builder can explain how it works.",
+    processTitle: "How each project was built",
+    processLead: "Every project here went through the same four phases. The Builder does the work and makes the decisions; Lantr engineers mentor, review, and sign off before launch.",
     phases: [
       ["01", "Choose a problem worth solving", "Start with something the Builder already cares about. Define who it's for, when they'll use it, and what a win looks like."],
       ["02", "Build the foundation", "Build the core workflow, data model, and AI features, then get a usable version in front of people early."],
@@ -210,8 +210,8 @@ const COPY = {
     accountTitle: "The demos are open.",
     accountLead: "Each demo runs in its own environment with sample data, no sign-up needed. Trades, posts, and notifications are all simulated.",
     accountNote: "Demos run on simulated or public data and clear temporary records automatically.",
-    finalTitle: "The next project will start the same way.",
-    finalBody: "With a problem a student cares about, and the support to build it properly. See how the Builder program works at lantr.ai.",
+    finalTitle: "Want to build something like this?",
+    finalBody: "The Builder program is open to students. See how it works at lantr.ai.",
     finalCta: "Visit Lantr",
     backToWork: "Keep exploring",
     tagline: "Real work is the proof.",
@@ -251,7 +251,7 @@ function Header({ lang, copy }: { lang: Lang; copy: (typeof COPY)[Lang] }) {
               <div className="flex h-full items-center">
                 <a href="#projects" className="flex h-full items-center border-b-2 border-[#8fc3d1] px-4 text-[12.5px] font-medium text-white">{copy.nav.projects}</a>
                 <a href="#process" className="flex h-full items-center border-b-2 border-transparent px-4 text-[12.5px] font-medium text-white/68 hover:text-white">{copy.nav.process}</a>
-                <a href="#experience" className="flex h-full items-center border-b-2 border-transparent px-4 text-[12.5px] font-medium text-white/68 hover:text-white">{copy.nav.experience}</a>
+                {lang === "zh" ? <a href="#experience" className="flex h-full items-center border-b-2 border-transparent px-4 text-[12.5px] font-medium text-white/68 hover:text-white">{copy.nav.experience}</a> : null}
               </div>
               <a href={copy.homeHref} className="inline-flex h-16 min-w-[174px] items-center justify-center gap-2 bg-[#a9c8d1] px-6 text-[12px] font-semibold text-scene hover:bg-white">{copy.navCta}<Arrow className="size-3.5" /></a>
             </nav>
@@ -329,15 +329,17 @@ export function Landing({ lang }: { lang: Lang }) {
             <div className="grid gap-9 lg:grid-cols-[0.65fr_1.35fr] lg:gap-20">
               <Reveal>
                 <Eyebrow>{c.eyebrow}</Eyebrow>
-                <div className="mt-10 hidden border-t border-line-strong lg:block">
-                  {projects.map((project) => (
-                    <a key={project.number} href={project.href} className="group grid grid-cols-[36px_1fr_auto] items-center gap-3 border-b border-line-strong py-4">
-                      <span className="font-display text-lg text-accent-ink">{project.number}</span>
-                      <span className="text-[12px] font-semibold text-fg">{project.name}</span>
-                      <ArrowUpRight className="size-3.5 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                    </a>
-                  ))}
-                </div>
+                {lang === "zh" ? (
+                  <div className="mt-10 hidden border-t border-line-strong lg:block">
+                    {projects.map((project) => (
+                      <a key={project.number} href={project.href} className="group grid grid-cols-[36px_1fr_auto] items-center gap-3 border-b border-line-strong py-4">
+                        <span className="font-display text-lg text-accent-ink">{project.number}</span>
+                        <span className="text-[12px] font-semibold text-fg">{project.name}</span>
+                        <ArrowUpRight className="size-3.5 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
               </Reveal>
               <div>
                 <h1 className={`whitespace-pre-line text-balance font-display font-normal tracking-[-0.015em] text-fg ${lang === "en" ? "text-[3.1rem] leading-[0.96] sm:text-[4.15rem] lg:text-[4.8rem]" : "text-[3.25rem] leading-[0.98] sm:text-[4.8rem] lg:text-[5.55rem]"}`}><Words text={c.h1} delay={80} /></h1>
@@ -351,7 +353,7 @@ export function Landing({ lang }: { lang: Lang }) {
               </div>
             </div>
 
-            <Reveal delay={260} className="mt-14 sm:mt-18">
+            {lang === "zh" ? <Reveal delay={260} className="mt-14 sm:mt-18">
               <div className="border border-line-strong bg-surface p-3 sm:p-5">
                 <div className="mb-3 flex items-center justify-between border-b border-line pb-3 font-mono text-[8px] font-semibold uppercase tracking-[0.16em] text-muted"><span>{c.heroIndex}</span><span>lantr.site</span></div>
                 <div className="grid gap-3 lg:grid-cols-[1.16fr_0.84fr]">
@@ -373,7 +375,7 @@ export function Landing({ lang }: { lang: Lang }) {
                   </div>
                 </div>
               </div>
-            </Reveal>
+            </Reveal> : null}
 
             <div className="mt-8 grid border-y border-line-strong sm:grid-cols-3">
               {c.proof.map(([value, label], index) => (
@@ -412,6 +414,7 @@ export function Landing({ lang }: { lang: Lang }) {
             <div className="mt-12 space-y-7 sm:mt-16 sm:space-y-10">
               {projects.map((project, index) => <ProjectCase key={project.number} project={project} copy={c} reverse={index % 2 === 1} />)}
             </div>
+            {lang === "en" ? <p className="mt-5 font-mono text-[9px] leading-5 tracking-[0.04em] text-muted">{c.accountLead}</p> : null}
           </Container>
         </SectionFrame>
 
@@ -439,7 +442,7 @@ export function Landing({ lang }: { lang: Lang }) {
           </Container>
         </SectionFrame>
 
-        <SectionFrame id="experience" gutters className="scroll-mt-24 bg-accent-wash py-20 sm:py-28">
+        {lang === "zh" ? <SectionFrame id="experience" gutters className="scroll-mt-24 bg-accent-wash py-20 sm:py-28">
           <Container>
             <Reveal className="grid gap-7 lg:grid-cols-[0.62fr_1.38fr] lg:items-end lg:gap-20">
               <Eyebrow>{c.accountEyebrow}</Eyebrow>
@@ -462,7 +465,7 @@ export function Landing({ lang }: { lang: Lang }) {
             </div>
             <p className="mt-4 font-mono text-[9px] leading-5 tracking-[0.04em] text-muted">{c.accountNote}</p>
           </Container>
-        </SectionFrame>
+        </SectionFrame> : null}
 
         <SectionFrame className="border-t border-white/10 bg-scene py-20 text-white [--lp-rule:rgba(255,255,255,0.07)] sm:py-28">
           <Container>
