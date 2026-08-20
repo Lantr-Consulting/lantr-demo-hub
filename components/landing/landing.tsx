@@ -198,7 +198,7 @@ const COPY = {
     open: "Open the demo",
     processEyebrow: "The Lantr Builder Standard",
     processTitle: "How each project was built",
-    processLead: "Every project here went through the same four phases. The Builder does the work and makes the decisions; Lantr engineers mentor, review, and sign off before launch.",
+    processLead: "Each Builder works through these four phases, with a Lantr engineer as mentor and reviewer.",
     phases: [
       ["01", "Choose a problem worth solving", "Start with something the Builder already cares about. Define who it's for, when they'll use it, and what a win looks like."],
       ["02", "Build the foundation", "Build the core workflow, data model, and AI features, then get a usable version in front of people early."],
