@@ -88,8 +88,8 @@ function Logo({ lang, compact = false }: { lang: Lang; compact?: boolean }) {
     <a href={lang === "zh" ? "https://lantr.ai" : "https://lantr.ai/en"} className="group inline-flex items-center gap-3" aria-label={lang === "zh" ? "返回兰图官网" : "Return to Lantr"}>
       <Image src="/lantr_mark.png" alt="" width={48} height={48} className={`${compact ? "size-7" : "size-11"} brightness-0 invert transition-transform duration-300 group-hover:-rotate-6`} />
       <span>
-        <span className={`${compact ? "text-lg" : "text-[1.65rem]"} block font-display font-medium leading-none text-white`}>{lang === "zh" ? "兰图" : "Lantr"}</span>
-        {!compact ? <span className="mt-1.5 block font-mono text-[8px] uppercase tracking-[0.16em] text-white/42">Builder work</span> : null}
+        <span className={`${compact ? "text-lg" : "text-[1.65rem]"} block font-display font-medium leading-none text-white`}>{lang === "zh" ? "兰图 Lantr" : "Lantr"}</span>
+        {!compact ? <span className="mt-1.5 block font-mono text-[8px] uppercase tracking-[0.16em] text-white/42">{lang === "zh" ? "Builder 作品" : "Builder work"}</span> : null}
       </span>
     </a>
   );
@@ -215,50 +215,52 @@ const COPY = {
     navCta: "返回兰图",
     eyebrow: "兰图 Builder 作品 · Lantr.site",
     h1: "让作品，\n为创造力作证。",
-    heroBody: "每件产品都由 Builder 从真实问题出发，在兰图的工程与产品标准下完成设计、构建、检验与上线。作品能被使用，系统能被解释，关键判断有据可查。",
+    heroBody: "每件产品均由 Builder 从真实问题出发，在兰图的工程与产品标准下完成设计、构建、检验与正式上线。作品可被使用，系统可被解释，关键判断有据可查。",
     heroPrimary: "亲自体验作品",
     heroSecondary: "了解兰图 Builder 标准",
-    proof: [["03", "正式上线的产品"], ["03", "不同专业方向"], ["100%", "关键判断可解释"]],
+    proof: [["3 件", "正式上线的产品"], ["3 个", "不同专业方向"], ["100%", "关键判断可解释"]],
     heroIndex: "精选作品 / 01–03",
     bridgeBig: "真正的能力，留得下作品。",
-    bridgeSmall: "金融、环境健康、内容创作，三个方向各不相同。每位 Builder 都把专业兴趣变成了一件可以使用、可以解释、也可以继续精进的产品。",
-    projectsEyebrow: "Selected Builder work / 01–03",
+    bridgeSmall: "金融、环境健康、内容创作，三个方向各不相同。每位 Builder 都将自己的专业兴趣转化为一件可使用、可解释、可持续精进的产品。",
+    projectsEyebrow: "精选 Builder 作品 / 01–03",
     projectsTitle: "三件正式上线的作品，三种面向未来的创造力。",
-    projectsLead: "每件作品都开放独立互动演示。你可以直接进入产品，查看功能如何运行，也可以检验 Builder 在数据、风控与用户责任上的判断。",
-    creditNote: "只有得到 Builder 本人同意，我们才会公开姓名和届次；其余作品保留匿名。",
+    projectsLead: "每件作品均开放独立互动演示。您可以直接进入产品体验功能运行，也可以检验 Builder 在数据、风控与用户责任方面的判断。",
+    creditNote: "仅当获得 Builder 本人同意时，我们才会公开姓名与届次；其余作品保留匿名。",
     hosted: "兰图 Builder 作品 · 持续在线",
     builtLabel: "作品所体现的核心能力",
+    questionLabel: "核心问题：",
+    demoTag: "体验演示",
     live: "LIVE · LANTR.SITE",
     open: "打开互动演示",
     processEyebrow: "兰图创造标准",
     processTitle: "从一个真实问题，到一件经得起检验的产品。",
-    processLead: "兰图以一线工程和产品标准推进每一个项目。Builder 对关键决定负责，导师提供专业评审，最终成果必须能够运行、能够说明，也能够面对真实反馈。",
+    processLead: "兰图以一线工程和产品标准推进每一个项目。Builder 对关键决定负责，导师提供专业评审。最终成果必须能够运行、能够被说明、能够面对真实反馈。",
     phases: [
-      ["01", "找到值得解决的问题", "从 Builder 的专业兴趣与真实经历出发，明确用户、场景和判断成果的标准。"],
-      ["02", "建立产品与技术底座", "完成核心工作流、数据结构与 AI 能力，让第一版尽早进入可用状态。"],
-      ["03", "用证据推动精进", "观察用户行为，核实模型输出，把来源、边界和人工确认写进系统。"],
-      ["04", "正式上线并从容答辩", "完成可靠性与体验打磨，让 Builder 能够准确说明架构、取舍与每个关键决定。"],
+      ["01", "找到值得解决的问题", "从 Builder 的专业兴趣与真实经历出发，明确用户、使用场景以及判断成果的标准。"],
+      ["02", "建立产品与技术底座", "完成核心工作流、数据结构与 AI 能力，让第一版产品尽早进入可用状态。"],
+      ["03", "用证据推动精进", "观察用户行为，核实模型输出质量，将数据来源、边界条件和人工确认节点写入系统。"],
+      ["04", "正式上线并从容答辩", "完成可靠性与体验打磨，使 Builder 能够准确阐述架构设计、取舍考量与每一个关键决定。"],
     ],
     processLink: "查看完整 Builder 体系",
     accountEyebrow: "在线体验",
     accountTitle: "现在，亲自打开它们。",
-    accountLead: "三个项目都提供独立演示环境。无需共享账号；示例数据彼此隔离，涉及交易、发布和外部通知的动作均为模拟。",
-    accountNote: "演示使用模拟或公开数据，并会自动清理临时记录。",
+    accountLead: "三个项目均提供独立演示环境。无需共享账号；示例数据彼此隔离，涉及交易、发布和外部通知的操作均为模拟。",
+    accountNote: "演示使用模拟或公开数据，临时记录将自动清理。",
     finalTitle: "下一件值得被看见的作品，也可以从这里开始。",
-    finalBody: "了解兰图如何与下一代一起，把专业兴趣、原创判断与 AI 技术变成一件真正上线的作品。",
+    finalBody: "了解兰图如何与下一代一起，将专业兴趣、原创判断与 AI 技术转化为一件真正上线的作品。",
     finalCta: "进入兰图",
-    backToWork: "继续看作品",
+    backToWork: "继续浏览作品",
     tagline: "以真实作品，证明创造力。",
-    footer: "本页展示由兰图 Builders 完成并正式上线的项目。项目完成后，兰图继续托管这些作品，供访客体验。AI Stock Analyst 只进行模拟交易，不构成投资建议；AirAware 只供日常参考，不代替医疗建议；PostPilot 不会自动替用户发布内容。",
+    footer: "本页展示由兰图 Builder 完成并正式上线的项目。项目完成后，兰图继续托管这些作品供访客体验。AI Stock Analyst 仅进行模拟交易，不构成投资建议；AirAware 仅供日常参考，不代替医疗建议；PostPilot 不会自动替用户发布内容。",
     projects: [
       {
-        number: "01", name: "AI Stock Analyst", chineseName: "美股研究与模拟交易助手", href: "https://analyst.lantr.site/demo", domain: "analyst.lantr.site", shot: "/shots/analyst.jpg", alt: "Builder 项目 AI Stock Analyst 的投资组合页面", field: "金融 × 人工智能", question: "怎样让 AI 形成有证据、受风控约束，并最终由用户负责的投资判断？", summary: "Builder 构建了一套贯穿实时研究、投资偏好、风险审查与模拟执行的完整系统。每项建议都有数据依据，经过规则检验，并由用户保留最终决定权。", bullets: ["将自然语言偏好转化为明确风险边界", "结合实时行情形成有依据的研究建议", "以代码检查每笔模拟订单并要求用户确认"], note: "使用模拟资金，不涉及真实交易", tint: "#e7eef0",
+        number: "01", name: "AI Stock Analyst", chineseName: "美股研究与模拟交易助手", href: "https://analyst.lantr.site/demo", domain: "analyst.lantr.site", shot: "/shots/analyst.jpg", alt: "AI Stock Analyst 投资组合页面", field: "金融 × 人工智能", question: "怎样让 AI 形成有证据支撑、受风控约束、且最终由用户负责的投资判断？", summary: "Builder 构建了一套贯穿实时研究、投资偏好、风险审查与模拟执行的完整系统。每项建议均有数据依据，经过规则检验，并由用户保留最终决定权。", bullets: ["将自然语言偏好转化为明确风险边界", "结合实时行情形成有依据的研究建议", "以代码检查每笔模拟订单并要求用户确认"], note: "使用模拟资金，不涉及真实交易", tint: "#e7eef0",
       },
       {
-        number: "02", name: "AirAware", chineseName: "户外活动安排助手", href: "https://airaware.lantr.site/demo", domain: "airaware.lantr.site", shot: "/shots/airaware.jpg", alt: "Builder 项目 AirAware 的今日环境规划页面", field: "环境健康 × 数据", question: "如何把分散的环境数据，转化为可信赖的个人行动建议？", summary: "Builder 将紫外线、高温、空气质量与花粉预报统一纳入个人日程。系统逐段评估户外活动条件，并在环境变化后自动重新计算建议。", bullets: ["整合公开天气、空气质量与花粉数据", "将公共健康标准转化为可验证规则", "结合个人日程生成并动态更新行动方案"], note: "基于公开环境数据，不代替医疗建议", tint: "#e8f0f2",
+        number: "02", name: "AirAware", chineseName: "户外活动安排助手", href: "https://airaware.lantr.site/demo", domain: "airaware.lantr.site", shot: "/shots/airaware.jpg", alt: "AirAware 今日环境规划页面", field: "环境健康 × 数据", question: "如何将分散的环境数据，转化为可信赖的个人行动建议？", summary: "Builder 将紫外线、高温、空气质量与花粉预报统一纳入个人日程。系统逐段评估户外活动条件，并在环境变化后自动重新计算建议。", bullets: ["整合公开天气、空气质量与花粉数据", "将公共健康标准转化为可验证规则", "结合个人日程生成并动态更新行动方案"], note: "基于公开环境数据，不代替医疗建议", tint: "#e8f0f2",
       },
       {
-        number: "03", name: "PostPilot", chineseName: "创作者内容工作台", href: "https://postpilot.lantr.site/demo", domain: "postpilot.lantr.site", shot: "/shots/postpilot.jpg", alt: "Builder 项目 PostPilot 的内容工作台页面", field: "内容创作 × 人工智能", question: "怎样让 AI 提升内容生产力，同时守住来源、质量与发布责任？", summary: "Builder 设计了一套以创作者原始材料为依据的内容工作流。系统先组织访谈、笔记与历史内容，再生成选题和初稿，同时保留来源与人工审核。", bullets: ["将访谈、笔记与历史内容整理为可追溯资料", "为不同平台生成初稿并执行编辑规则检查", "所有内容由用户审核，系统只负责导出"], note: "草稿由用户审核，产品不会自动发布", tint: "#ecebea",
+        number: "03", name: "PostPilot", chineseName: "创作者内容工作台", href: "https://postpilot.lantr.site/demo", domain: "postpilot.lantr.site", shot: "/shots/postpilot.jpg", alt: "PostPilot 内容工作台页面", field: "内容创作 × 人工智能", question: "怎样让 AI 提升内容生产力，同时守住来源、质量与发布责任？", summary: "Builder 设计了一套以创作者原始材料为依据的内容工作流。系统先组织访谈、笔记与历史内容，再生成选题与初稿，同时保留来源与人工审核节点。", bullets: ["将访谈、笔记与历史内容整理为可追溯资料", "为不同平台生成初稿并执行编辑规则检查", "所有内容由用户审核，系统仅负责导出"], note: "草稿由用户审核，产品不会自动发布", tint: "#ecebea",
       },
     ],
   },
@@ -285,6 +287,8 @@ const COPY = {
     projectsLead: "",
     creditNote: "Names and cohort details appear only with the Builder’s permission; otherwise, the work remains anonymous.",
     hosted: "Built at Lantr · live on lantr.site",
+    questionLabel: "",
+    demoTag: "Open demo",
     builtLabel: "Under the hood",
     live: "LIVE · LANTR.SITE",
     open: "Open the demo",
@@ -334,7 +338,7 @@ function Header({ lang, copy }: { lang: Lang; copy: (typeof COPY)[Lang] }) {
               <a href={copy.mainHref} className="group inline-flex items-center gap-2 text-[11px] font-medium text-white/90 hover:text-white">{copy.announcement}<Arrow className="size-3 transition-transform group-hover:translate-x-0.5" /></a>
               <div className="flex h-8 shrink-0 items-stretch">
                 <a href="mailto:team@lantr.ai" className="inline-flex items-center gap-2.5 border-l border-white/20 px-5 font-mono text-[9px] font-semibold uppercase tracking-[0.12em] text-white/82 hover:bg-white/8 hover:text-white"><MailIcon />team@lantr.ai</a>
-                <a href={copy.switchHref} onClick={() => persistLang(otherLang)} className="inline-flex items-center gap-2.5 border-l border-white/20 px-5 text-[11px] font-semibold text-white hover:bg-white/8"><GlobeIcon />{copy.switch}<span className="text-white/55">⌄</span></a>
+                <a href={copy.switchHref} onClick={() => persistLang(otherLang)} className="inline-flex items-center gap-2.5 border-l border-white/20 px-5 text-[11px] font-semibold text-white hover:bg-white/8"><GlobeIcon />{copy.switch}</a>
               </div>
             </div>
           </div>
@@ -382,7 +386,14 @@ function ProjectCase({ project, copy, reverse }: { project: Project; copy: (type
             </div>
           </div>
           <h3 className="mt-6 max-w-md text-balance font-display text-[2rem] font-normal leading-[1.1] text-fg sm:text-[2.5rem]">{project.chineseName}</h3>
-          <p className="mt-4 max-w-lg font-display text-[1.05rem] italic leading-[1.5] text-accent-ink">“{project.question}”</p>
+          {copy.questionLabel ? (
+            <p className="mt-4 max-w-lg text-[14px] leading-[1.7]">
+              <strong className="mr-1 font-semibold text-fg">{copy.questionLabel}</strong>
+              <span className="font-display text-[1.02rem] italic text-accent-ink">{project.question}</span>
+            </p>
+          ) : (
+            <p className="mt-4 max-w-lg font-display text-[1.05rem] italic leading-[1.5] text-accent-ink">“{project.question}”</p>
+          )}
           <p className="mt-5 max-w-lg text-[14.5px] leading-[1.9] text-muted">{project.summary}</p>
           <ul className="mt-7 space-y-2.5">
             {project.bullets.map((bullet) => <li key={bullet} className="flex gap-3 text-[13.5px] leading-6 text-fg"><span className="text-accent-ink"><Check /></span>{bullet}</li>)}
@@ -528,9 +539,10 @@ export function Landing({ lang }: { lang: Lang }) {
               </div>
               <div className="border-t border-line-strong">
                 {projects.map((project) => (
-                  <a key={project.number} href={project.href} className="group grid grid-cols-[2.4rem_1fr_auto] items-center gap-4 border-b border-line-strong py-4">
+                  <a key={project.number} href={project.href} className="group grid grid-cols-[2.4rem_1fr_auto_auto] items-center gap-4 border-b border-line-strong py-4">
                     <span className="font-display text-lg text-accent-ink">{project.number}</span>
                     <span className="text-[13.5px] font-semibold text-fg transition-colors group-hover:text-accent-ink">{project.name}</span>
+                    <span className="text-[11px] text-muted transition-colors group-hover:text-accent-ink">{c.demoTag}</span>
                     <ArrowUpRight className="size-3.5 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </a>
                 ))}
