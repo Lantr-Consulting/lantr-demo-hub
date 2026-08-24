@@ -11,14 +11,14 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: {
-    canonical: "/",
-    languages: { "zh-CN": "/", en: "/en" },
+    canonical: "/zh",
+    languages: { "zh-CN": "/zh", en: "/" },
   },
   openGraph: {
     title,
     description,
     type: "website",
-    url: "/",
+    url: "/zh",
     siteName: "兰图 Builder 作品",
     locale: "zh_CN",
   },

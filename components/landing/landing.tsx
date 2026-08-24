@@ -72,7 +72,7 @@ function Eyebrow({ children }: { children: ReactNode }) {
 
 function Logo({ lang, compact = false }: { lang: Lang; compact?: boolean }) {
   return (
-    <a href={lang === "zh" ? "https://lantr.ai" : "https://lantr.ai/en"} className="group inline-flex items-center gap-3" aria-label={lang === "zh" ? "返回兰图官网" : "Return to Lantr"}>
+    <a href={lang === "zh" ? "https://lantr.ai/zh" : "https://lantr.ai"} className="group inline-flex items-center gap-3" aria-label={lang === "zh" ? "返回兰图官网" : "Return to Lantr"}>
       <Image src="/lantr_mark.png" alt="" width={48} height={48} className={`${compact ? "size-7" : "size-11"} brightness-0 invert transition-transform duration-300 group-hover:-rotate-6`} />
       <span>
         <span className={`${compact ? "text-lg" : "text-[1.65rem]"} block font-display font-medium leading-none text-white`}>{lang === "zh" ? "兰图 Lantr" : "Lantr"}</span>
@@ -195,9 +195,9 @@ const COPY = {
     announcement: "这里展示的是兰图 Builder 已上线的真实作品。了解完整创造者体系",
     navProjects: "Builder 作品",
     switch: "EN",
-    switchHref: "/en",
-    mainHref: "https://lantr.ai/#work",
-    homeHref: "https://lantr.ai",
+    switchHref: "/",
+    mainHref: "https://lantr.ai/zh#work",
+    homeHref: "https://lantr.ai/zh",
     navCta: "返回兰图",
     eyebrow: "兰图 Builder 作品 · Lantr.site",
     h1: "让作品，\n为创造力作证。",
@@ -216,9 +216,9 @@ const COPY = {
     announcement: "Explore live products built by Lantr Builders, and the system behind them",
     navProjects: "Builder Work",
     switch: "中文",
-    switchHref: "/",
-    mainHref: "https://lantr.ai/en#work",
-    homeHref: "https://lantr.ai/en",
+    switchHref: "/zh",
+    mainHref: "https://lantr.ai/#work",
+    homeHref: "https://lantr.ai",
     navCta: "Return to Lantr",
     eyebrow: "Lantr Builder work · Lantr.site",
     h1: "Projects by\nLantr Builders",
