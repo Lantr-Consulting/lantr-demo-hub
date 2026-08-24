@@ -202,40 +202,6 @@ function ShowcaseList({ projects, copy }: { projects: readonly Project[]; copy: 
   );
 }
 
-/* The 21st.dev "Condition Grid" idiom (uilayout.contact): a showcase
-   grid with alternating column spans, tinted backdrops, and an overlaid
-   name pill + round arrow badge on each card. Motion entrances become
-   the kit's Reveal. */
-const GRID_SPANS = ["lg:col-span-5", "lg:col-span-7", "lg:col-span-12"] as const;
-
-function ShowcaseGrid({ projects }: { projects: readonly Project[] }) {
-  return (
-    <div className="grid grid-cols-12 gap-4">
-      {projects.map((project, index) => (
-        <Reveal key={project.number} delay={index * 90} className={`col-span-12 ${GRID_SPANS[index]}`}>
-          <a
-            href={project.href}
-            className="group relative block h-full overflow-hidden border border-line-strong"
-            style={{ backgroundColor: project.tint }}
-          >
-            <div className={`px-5 pb-16 pt-5 transition-transform duration-500 ease-out group-hover:-translate-y-1.5 sm:px-8 sm:pb-20 sm:pt-8 ${index === 2 ? "lg:mx-auto lg:max-w-3xl" : ""}`}>
-              <ProjectShot project={project} />
-            </div>
-            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 sm:p-5">
-              <span className="flex min-w-0 items-baseline gap-3 bg-scene px-4 py-2.5 text-white">
-                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.15em] text-[#8fc3d1]">{project.number}</span>
-                <span className="truncate font-display text-[15px] sm:text-[17px]">{project.name}</span>
-              </span>
-              <span className="grid size-11 shrink-0 place-content-center rounded-full bg-scene text-white transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
-                <ArrowUpRight />
-              </span>
-            </div>
-          </a>
-        </Reveal>
-      ))}
-    </div>
-  );
-}
 
 const COPY = {
   zh: {
@@ -548,19 +514,28 @@ export function Landing({ lang }: { lang: Lang }) {
           </Container>
         </SectionFrame>
 
-        {lang === "zh" ? <SectionFrame id="experience" gutters className="scroll-mt-24 bg-accent-wash py-20 sm:py-28">
+        {/* Slim demo-access band — the reassurance copy plus three plain
+            links. The projects are already shown twice above (hero index,
+            case rows), so nothing is re-showcased here. */}
+        {lang === "zh" ? <SectionFrame id="experience" gutters className="scroll-mt-24 bg-accent-wash py-14 sm:py-18">
           <Container>
-            <Reveal className="grid gap-7 lg:grid-cols-[0.62fr_1.38fr] lg:items-end lg:gap-20">
-              <Eyebrow>{c.accountEyebrow}</Eyebrow>
+            <Reveal className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-20">
               <div>
-                <h2 className="font-display text-[2.5rem] font-normal leading-[1.06] text-fg sm:text-[3.7rem]">{c.accountTitle}</h2>
-                <p className="mt-5 max-w-2xl text-[14px] leading-[1.85] text-muted">{c.accountLead}</p>
+                <Eyebrow>{c.accountEyebrow}</Eyebrow>
+                <h2 className="mt-5 font-display text-[1.9rem] font-normal leading-[1.1] text-fg sm:text-[2.4rem]">{c.accountTitle}</h2>
+                <p className="mt-4 max-w-xl text-[14px] leading-[1.85] text-muted">{c.accountLead}</p>
+                <p className="mt-3 font-mono text-[9px] leading-5 tracking-[0.04em] text-faint">{c.accountNote}</p>
+              </div>
+              <div className="border-t border-line-strong">
+                {projects.map((project) => (
+                  <a key={project.number} href={project.href} className="group grid grid-cols-[2.4rem_1fr_auto] items-center gap-4 border-b border-line-strong py-4">
+                    <span className="font-display text-lg text-accent-ink">{project.number}</span>
+                    <span className="text-[13.5px] font-semibold text-fg transition-colors group-hover:text-accent-ink">{project.name}</span>
+                    <ArrowUpRight className="size-3.5 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </a>
+                ))}
               </div>
             </Reveal>
-            <div className="mt-12">
-              <ShowcaseGrid projects={projects} />
-            </div>
-            <p className="mt-4 font-mono text-[9px] leading-5 tracking-[0.04em] text-muted">{c.accountNote}</p>
           </Container>
         </SectionFrame> : null}
 
