@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
 import { ColumnRules, persistLang, Reveal, Words, type Lang } from "@/components/landing/kit";
 
 type Project = {
@@ -399,42 +399,50 @@ function Header({ lang, copy }: { lang: Lang; copy: (typeof COPY)[Lang] }) {
   );
 }
 
+/* The 21st.dev "Section With Mockup" idiom (aghasisahakyan1): an open
+   two-column row — text beside a large mockup layered over an offset
+   backdrop panel — alternating direction per case. No boxes; the
+   screenshot fills its column. Motion entrances become kit Reveals. */
 function ProjectCase({ project, copy, reverse }: { project: Project; copy: (typeof COPY)[Lang]; reverse: boolean }) {
-  const style = { "--project-tint": project.tint } as CSSProperties;
   return (
     <Reveal>
-      <article style={style} className="overflow-hidden border border-line-strong bg-surface shadow-card">
-        <div className="grid lg:grid-cols-[0.84fr_1.16fr]">
-          <div className={`flex flex-col p-6 sm:p-9 lg:p-11 ${reverse ? "lg:order-2" : ""}`}>
-            <div className="flex items-start justify-between gap-6 border-b border-line-strong pb-5">
-              <div>
-                <div className="font-mono text-[9px] font-semibold uppercase tracking-[0.17em] text-accent-ink">{copy.hosted}</div>
-                <div className="mt-2 text-xs font-semibold uppercase tracking-[0.11em] text-fg">{project.field}</div>
-              </div>
-              <span className="project-number font-display text-5xl leading-none sm:text-6xl">{project.number}</span>
-            </div>
-            <div className="mt-8">
-              <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">{project.name}</div>
-              <h3 className="mt-2 font-display text-[2rem] font-normal leading-[1.08] text-fg sm:text-[2.4rem]">{project.chineseName}</h3>
-              <p className="mt-6 text-balance font-display text-[1.4rem] font-normal leading-[1.22] text-fg sm:text-[1.62rem]">“{project.question}”</p>
-              <p className="mt-5 text-[14px] leading-[1.85] text-muted">{project.summary}</p>
-            </div>
-            <div className="mt-7 border-t border-line-strong pt-6">
-              <div className="font-mono text-[9px] font-semibold uppercase tracking-[0.17em] text-muted">{copy.builtLabel}</div>
-              <ul className="mt-4 space-y-3">
-                {project.bullets.map((bullet) => <li key={bullet} className="flex gap-3 text-[13px] leading-6 text-fg"><span className="text-accent-ink"><Check /></span>{bullet}</li>)}
-              </ul>
-            </div>
-            <div className="mt-auto flex flex-col items-start gap-4 pt-8 sm:flex-row sm:items-end sm:justify-between">
-              <a href={project.href} className="group inline-flex h-12 items-center justify-center gap-2 bg-scene px-5 text-[13px] font-semibold text-white hover:bg-accent-ink">{copy.open}<Arrow className="transition-transform group-hover:translate-x-0.5" /></a>
-              <p className="max-w-52 text-[10.5px] leading-5 text-muted sm:text-right">{project.note}</p>
+      <article className="grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
+        <div className={reverse ? "lg:order-2" : ""}>
+          <div className="flex items-baseline gap-4">
+            <span className="font-display text-[2.4rem] leading-none text-line-strong">{project.number}</span>
+            <div>
+              <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.15em] text-accent-ink">{project.name}</div>
+              <div className="mt-1 text-[11px] font-semibold uppercase tracking-[0.11em] text-muted">{project.field}</div>
             </div>
           </div>
-          <a href={project.href} aria-label={`${copy.open}: ${project.name}`} className={`project-visual group relative flex min-h-[360px] items-center border-t border-line-strong p-5 sm:p-9 lg:min-h-full lg:border-t-0 lg:p-10 ${reverse ? "lg:order-1 lg:border-r" : "lg:border-l"}`}>
-            <span className="absolute right-5 top-5 border border-black/12 bg-white/82 px-3 py-1.5 font-mono text-[8px] font-semibold uppercase tracking-[0.15em] text-black/55 sm:right-8 sm:top-8">{copy.live}</span>
-            <div className="w-full transition-transform duration-500 ease-out group-hover:-translate-y-1"><ProjectShot project={project} /></div>
-          </a>
+          <h3 className="mt-6 max-w-md text-balance font-display text-[2rem] font-normal leading-[1.1] text-fg sm:text-[2.5rem]">{project.chineseName}</h3>
+          <p className="mt-4 max-w-lg font-display text-[1.05rem] italic leading-[1.5] text-accent-ink">“{project.question}”</p>
+          <p className="mt-5 max-w-lg text-[14.5px] leading-[1.9] text-muted">{project.summary}</p>
+          <ul className="mt-7 space-y-2.5">
+            {project.bullets.map((bullet) => <li key={bullet} className="flex gap-3 text-[13.5px] leading-6 text-fg"><span className="text-accent-ink"><Check /></span>{bullet}</li>)}
+          </ul>
+          <div className="mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
+            <a href={project.href} className="group inline-flex h-12 items-center justify-center gap-2 bg-scene px-6 text-[13px] font-semibold text-white hover:bg-accent-ink">{copy.open}<Arrow className="transition-transform group-hover:translate-x-0.5" /></a>
+            <p className="max-w-56 text-[10.5px] leading-5 text-faint">{project.note}</p>
+          </div>
         </div>
+
+        <a
+          href={project.href}
+          aria-label={`${copy.open}: ${project.name}`}
+          className={`group relative block ${reverse ? "lg:order-1" : ""}`}
+        >
+          {/* offset backdrop panel, the fetched component's depth layer */}
+          <div
+            aria-hidden
+            className={`absolute -top-6 bottom-[-1.5rem] hidden w-[86%] border border-line sm:block ${reverse ? "-left-5" : "-right-5"}`}
+            style={{ background: project.tint }}
+          />
+          <div className="relative transition-transform duration-500 ease-out group-hover:-translate-y-1.5">
+            <ProjectShot project={project} />
+            <span className="absolute right-3 top-12 border border-black/12 bg-white/85 px-2.5 py-1 font-mono text-[8px] font-semibold uppercase tracking-[0.15em] text-black/55">{copy.live}</span>
+          </div>
+        </a>
       </article>
     </Reveal>
   );
@@ -509,7 +517,7 @@ export function Landing({ lang }: { lang: Lang }) {
                 </div>
               </Reveal>
             ) : null}
-            <div className={`space-y-7 sm:space-y-10 ${lang === "zh" ? "mt-12 sm:mt-16" : ""}`}>
+            <div className={`space-y-20 sm:space-y-28 ${lang === "zh" ? "mt-14 sm:mt-20" : ""}`}>
               {projects.map((project, index) => <ProjectCase key={project.number} project={project} copy={c} reverse={index % 2 === 1} />)}
             </div>
             {lang === "en" ? <p className="mt-6 max-w-3xl font-mono text-[9px] leading-5 tracking-[0.04em] text-muted">{c.accountLead} {c.creditNote}</p> : null}
