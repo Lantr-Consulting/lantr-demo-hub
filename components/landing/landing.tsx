@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
 import { ColumnRules, persistLang, Reveal, Words, type Lang } from "@/components/landing/kit";
 
 type Project = {
@@ -111,6 +111,132 @@ function ProjectShot({ project, eager = false, compact = false }: { project: Pro
   );
 }
 
+/* The 21st.dev "Project Showcase" idiom (jatin-yadav05): a hairline
+   list of the live projects whose screenshot trails the cursor as a
+   floating preview, lerp-smoothed on rAF. Adapted dependency-free for
+   the kit; below lg each row carries a static shot instead of hover. */
+function ShowcaseList({ projects, copy }: { projects: readonly Project[]; copy: (typeof COPY)[Lang] }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const target = useRef({ x: 0, y: 0 });
+  const raf = useRef<number | null>(null);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const [smooth, setSmooth] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const lerp = (a: number, b: number, f: number) => a + (b - a) * f;
+    const tick = () => {
+      setSmooth((prev) => ({ x: lerp(prev.x, target.current.x, 0.16), y: lerp(prev.y, target.current.y, 0.16) }));
+      raf.current = requestAnimationFrame(tick);
+    };
+    raf.current = requestAnimationFrame(tick);
+    return () => {
+      if (raf.current) cancelAnimationFrame(raf.current);
+    };
+  }, []);
+
+  const onMove = (event: ReactMouseEvent) => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    target.current = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+  };
+
+  return (
+    <div ref={containerRef} onMouseMove={onMove} className="relative">
+      {/* cursor-trailing preview — desktop only */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-0 top-0 z-30 hidden w-[350px] lg:block"
+        style={{
+          transform: `translate3d(${smooth.x + 30}px, ${smooth.y - 130}px, 0)`,
+          opacity: hovered !== null ? 1 : 0,
+          scale: hovered !== null ? "1" : "0.92",
+          transition: "opacity 0.3s var(--lp-ease), scale 0.3s var(--lp-ease)",
+        }}
+      >
+        <div className="relative shadow-lift">
+          {projects.map((project, index) => (
+            <div
+              key={project.number}
+              className={index === 0 ? "" : "absolute inset-0"}
+              style={{ opacity: hovered === index ? 1 : 0, transition: "opacity 0.25s var(--lp-ease)" }}
+            >
+              <ProjectShot project={project} compact />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="border-t border-line-strong">
+        {projects.map((project, index) => (
+          <a
+            key={project.number}
+            href={project.href}
+            onMouseEnter={() => setHovered(index)}
+            onMouseLeave={() => setHovered(null)}
+            className="group relative block border-b border-line-strong"
+          >
+            <div className="grid grid-cols-[2.6rem_1fr_auto] items-center gap-4 py-6 sm:grid-cols-[3.4rem_1.15fr_0.85fr_auto] sm:gap-6 sm:py-7">
+              <span className="font-display text-[1.5rem] leading-none text-accent-ink sm:text-[1.85rem]">{project.number}</span>
+              <span className="min-w-0">
+                <span className="relative inline-block font-display text-[1.45rem] font-normal leading-tight text-fg sm:text-[1.75rem]">
+                  {project.name}
+                  <span aria-hidden className="absolute -bottom-0.5 left-0 h-px w-0 bg-fg transition-all duration-300 ease-out group-hover:w-full" />
+                </span>
+                <span className="mt-1 block text-[12px] leading-snug text-muted">{project.chineseName}</span>
+              </span>
+              <span className="hidden text-[11px] font-semibold uppercase tracking-[0.12em] text-muted sm:block">{project.field}</span>
+              <span className="flex items-center gap-4">
+                <span className="hidden font-mono text-[9px] font-semibold uppercase tracking-[0.15em] text-accent-ink md:block">{copy.live}</span>
+                <span className="grid size-10 place-content-center border border-line-strong text-fg transition-colors duration-300 group-hover:bg-scene group-hover:text-white">
+                  <ArrowUpRight className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </span>
+              </span>
+            </div>
+            <div className="pb-6 lg:hidden">
+              <ProjectShot project={project} compact />
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* The 21st.dev "Condition Grid" idiom (uilayout.contact): a showcase
+   grid with alternating column spans, tinted backdrops, and an overlaid
+   name pill + round arrow badge on each card. Motion entrances become
+   the kit's Reveal. */
+const GRID_SPANS = ["lg:col-span-5", "lg:col-span-7", "lg:col-span-12"] as const;
+
+function ShowcaseGrid({ projects }: { projects: readonly Project[] }) {
+  return (
+    <div className="grid grid-cols-12 gap-4">
+      {projects.map((project, index) => (
+        <Reveal key={project.number} delay={index * 90} className={`col-span-12 ${GRID_SPANS[index]}`}>
+          <a
+            href={project.href}
+            className="group relative block h-full overflow-hidden border border-line-strong"
+            style={{ backgroundColor: project.tint }}
+          >
+            <div className={`px-5 pb-16 pt-5 transition-transform duration-500 ease-out group-hover:-translate-y-1.5 sm:px-8 sm:pb-20 sm:pt-8 ${index === 2 ? "lg:mx-auto lg:max-w-3xl" : ""}`}>
+              <ProjectShot project={project} />
+            </div>
+            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 sm:p-5">
+              <span className="flex min-w-0 items-baseline gap-3 bg-scene px-4 py-2.5 text-white">
+                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.15em] text-[#8fc3d1]">{project.number}</span>
+                <span className="truncate font-display text-[15px] sm:text-[17px]">{project.name}</span>
+              </span>
+              <span className="grid size-11 shrink-0 place-content-center rounded-full bg-scene text-white transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                <ArrowUpRight />
+              </span>
+            </div>
+          </a>
+        </Reveal>
+      ))}
+    </div>
+  );
+}
+
 const COPY = {
   zh: {
     brand: "Builder 在线作品集",
@@ -118,7 +244,7 @@ const COPY = {
     nav: { projects: "Builder 作品", process: "兰图标准", experience: "亲自体验" },
     switch: "EN",
     switchHref: "/en",
-    mainHref: "https://lantr.ai/work",
+    mainHref: "https://lantr.ai/#work",
     homeHref: "https://lantr.ai",
     navCta: "返回兰图",
     eyebrow: "兰图 Builder 作品 · Lantr.site",
@@ -176,7 +302,7 @@ const COPY = {
     nav: { projects: "Builder Work", process: "The Lantr Standard", experience: "Demos" },
     switch: "中文",
     switchHref: "/",
-    mainHref: "https://lantr.ai/en/work",
+    mainHref: "https://lantr.ai/en#work",
     homeHref: "https://lantr.ai/en",
     navCta: "Return to Lantr",
     eyebrow: "Lantr Builder work · Lantr.site",
@@ -326,62 +452,28 @@ export function Landing({ lang }: { lang: Lang }) {
       <main>
         <SectionFrame gutters className={`border-b border-line bg-bg ${lang === "zh" ? "py-16 sm:py-24 lg:py-28" : "py-12 sm:py-14 lg:py-16"}`}>
           <Container>
-            <div className={lang === "zh" ? "grid gap-9 lg:grid-cols-[0.65fr_1.35fr] lg:gap-20" : "grid gap-7 lg:grid-cols-[1.18fr_0.82fr] lg:items-end lg:gap-16"}>
-              {lang === "zh" ? (
+            <div className="grid gap-9 lg:grid-cols-[1.35fr_0.65fr] lg:items-end lg:gap-20">
+              <div>
                 <Reveal>
                   <Eyebrow>{c.eyebrow}</Eyebrow>
-                  <div className="mt-10 hidden border-t border-line-strong lg:block">
-                    {projects.map((project) => (
-                      <a key={project.number} href={project.href} className="group grid grid-cols-[36px_1fr_auto] items-center gap-3 border-b border-line-strong py-4">
-                        <span className="font-display text-lg text-accent-ink">{project.number}</span>
-                        <span className="text-[12px] font-semibold text-fg">{project.name}</span>
-                        <ArrowUpRight className="size-3.5 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                      </a>
-                    ))}
-                  </div>
                 </Reveal>
-              ) : null}
-              <div className={lang === "en" ? "contents" : undefined}>
-                <h1 className={`whitespace-pre-line text-balance font-display font-normal tracking-[-0.015em] text-fg ${lang === "en" ? "text-[3rem] leading-[0.98] sm:text-[3.8rem] lg:text-[4.3rem]" : "text-[3.25rem] leading-[0.98] sm:text-[4.8rem] lg:text-[5.55rem]"}`}><Words text={c.h1} delay={80} /></h1>
-                <Reveal delay={180} className={lang === "en" ? "lg:pb-2" : undefined}>
-                  <p className={`text-pretty text-[15px] text-muted ${lang === "en" ? "max-w-md leading-[1.8]" : "mt-7 max-w-2xl leading-[1.9] sm:text-[17px]"}`}>{c.heroBody}</p>
-                  {lang === "zh" ? (
-                    <div className="mt-8 flex flex-wrap gap-3">
-                      <a href="#projects" className="group inline-flex h-12 items-center gap-2 bg-accent px-5 text-[13px] font-semibold text-white hover:bg-accent-ink">{c.heroPrimary}<Arrow className="transition-transform group-hover:translate-x-0.5" /></a>
-                      <a href={c.mainHref} className="inline-flex h-12 items-center gap-2 border border-line-strong bg-surface px-5 text-[13px] font-semibold text-fg hover:border-fg/45">{c.heroSecondary}<ArrowUpRight /></a>
-                    </div>
-                  ) : (
-                    <a href={c.mainHref} className="group mt-5 inline-flex items-center gap-2 border-b border-fg/30 pb-1 text-[13px] font-semibold text-fg hover:border-accent-ink hover:text-accent-ink">{c.heroSecondary}<ArrowUpRight className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></a>
-                  )}
-                </Reveal>
+                <h1 className={`mt-8 whitespace-pre-line text-balance font-display font-normal tracking-[-0.015em] text-fg ${lang === "en" ? "text-[3.1rem] leading-[0.96] sm:text-[4.15rem] lg:text-[4.8rem]" : "text-[3.25rem] leading-[0.98] sm:text-[4.8rem] lg:text-[5.55rem]"}`}><Words text={c.h1} delay={80} /></h1>
               </div>
+              <Reveal delay={180}>
+                <p className="max-w-2xl text-pretty text-[15px] leading-[1.9] text-muted sm:text-[16px]">{c.heroBody}</p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a href="#projects" className="group inline-flex h-12 items-center gap-2 bg-accent px-5 text-[13px] font-semibold text-white hover:bg-accent-ink">{c.heroPrimary}<Arrow className="transition-transform group-hover:translate-x-0.5" /></a>
+                  <a href={c.mainHref} className="inline-flex h-12 items-center gap-2 border border-line-strong bg-surface px-5 text-[13px] font-semibold text-fg hover:border-fg/45">{c.heroSecondary}<ArrowUpRight /></a>
+                </div>
+              </Reveal>
             </div>
 
-            {lang === "zh" ? <Reveal delay={260} className="mt-14 sm:mt-18">
-              <div className="border border-line-strong bg-surface p-3 sm:p-5">
-                <div className="mb-3 flex items-center justify-between border-b border-line pb-3 font-mono text-[8px] font-semibold uppercase tracking-[0.16em] text-muted"><span>{c.heroIndex}</span><span>lantr.site</span></div>
-                <div className="grid gap-3 lg:grid-cols-[1.16fr_0.84fr]">
-                  <a href={projects[0].href} className="group relative bg-accent-wash p-3 sm:p-5">
-                    <ProjectShot project={projects[0]} eager />
-                    <span className="mt-3 flex items-center justify-between font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-accent-ink"><span>01 · {projects[0].name}</span><ArrowUpRight /></span>
-                  </a>
-                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                    {projects.slice(1).map((project) => (
-                      <a key={project.number} href={project.href} className="group grid items-center gap-4 bg-bg-2 p-3 sm:grid-cols-[0.62fr_0.38fr]">
-                        <ProjectShot project={project} compact />
-                        <span className="flex h-full flex-col justify-between gap-3 py-1">
-                          <span className="font-mono text-[8px] font-semibold uppercase tracking-[0.14em] text-accent-ink">{project.number} · Live</span>
-                          <strong className="text-[12px] leading-snug text-fg">{project.name}</strong>
-                          <ArrowUpRight className="size-3.5 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                        </span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </Reveal> : null}
+            <Reveal delay={260} className="mt-14 sm:mt-18">
+              <div className="mb-4 flex items-center justify-between font-mono text-[8px] font-semibold uppercase tracking-[0.16em] text-muted"><span>{c.heroIndex}</span><span>lantr.site</span></div>
+              <ShowcaseList projects={projects} copy={c} />
+            </Reveal>
 
-            {lang === "zh" ? <div className="mt-8 grid border-y border-line-strong sm:grid-cols-3">
+            <div className="mt-8 grid border-b border-line-strong sm:grid-cols-3">
               {c.proof.map(([value, label], index) => (
                 <Reveal key={label} delay={300 + index * 60}>
                   <div className={`grid grid-cols-[72px_1fr] items-center gap-4 py-5 sm:block sm:px-6 ${index > 0 ? "border-t border-line-strong sm:border-l sm:border-t-0" : ""}`}>
@@ -390,7 +482,7 @@ export function Landing({ lang }: { lang: Lang }) {
                   </div>
                 </Reveal>
               ))}
-            </div> : null}
+            </div>
           </Container>
         </SectionFrame>
 
@@ -457,17 +549,8 @@ export function Landing({ lang }: { lang: Lang }) {
                 <p className="mt-5 max-w-2xl text-[14px] leading-[1.85] text-muted">{c.accountLead}</p>
               </div>
             </Reveal>
-            <div className="mt-12 grid border border-line-strong bg-surface lg:grid-cols-3">
-              {projects.map((project, index) => (
-                <Reveal key={project.name} delay={index * 70} className="h-full">
-                  <a href={project.href} className={`group flex h-full min-h-56 flex-col p-6 sm:p-8 ${index > 0 ? "border-t border-line-strong lg:border-l lg:border-t-0" : ""}`}>
-                    <span className="font-display text-2xl text-accent-ink">{project.number}</span>
-                    <span className="mt-8 font-mono text-[9px] font-semibold uppercase tracking-[0.15em] text-muted">{project.field}</span>
-                    <strong className="mt-2 text-[17px] font-semibold text-fg">{project.name}</strong>
-                    <span className="mt-auto flex items-center justify-between border-t border-line pt-4 font-mono text-[10px] font-medium tracking-[0.03em] text-fg">{project.domain}<ArrowUpRight className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></span>
-                  </a>
-                </Reveal>
-              ))}
+            <div className="mt-12">
+              <ShowcaseGrid projects={projects} />
             </div>
             <p className="mt-4 font-mono text-[9px] leading-5 tracking-[0.04em] text-muted">{c.accountNote}</p>
           </Container>
